@@ -2,6 +2,6 @@
 
 <template>
   <main>
-    <h1>Home Page</h1>
+    <h1 class="text-3xl font-bold">Hello world!</h1>
   </main>
 </template>
