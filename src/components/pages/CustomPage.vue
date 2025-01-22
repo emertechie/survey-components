@@ -8,5 +8,5 @@
 <script setup lang="ts">
 import type { CustomPage } from "@/data/survey";
 
-const { page } = defineProps<{ page: CustomPage }>();
+const { modelValue: page } = defineProps<{ modelValue: CustomPage }>();
 </script>
