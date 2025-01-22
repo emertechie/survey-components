@@ -5,6 +5,7 @@ interface VisibilityRules {
 }
 
 interface BasePage {
+  id: string;
   visibility?: VisibilityRules;
 }
 

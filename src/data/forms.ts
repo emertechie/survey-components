@@ -1,4 +1,5 @@
 export interface BaseControl {
+  id: string;
   title?: string;
 }
 
