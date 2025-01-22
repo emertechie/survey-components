@@ -6,6 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Custom } from "@/data/survey";
-const { page } = defineProps<{ page: Custom }>();
+import type { CustomPage } from "@/data/survey";
+const { page } = defineProps<{ page: CustomPage }>();
 </script>

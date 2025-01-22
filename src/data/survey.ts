@@ -9,19 +9,19 @@ interface BasePage {
   visibility?: VisibilityRules;
 }
 
-export interface Question extends BasePage {
+export interface QuestionPage extends BasePage {
   type: "question";
   question: string;
   answer: Control;
 }
 
-export interface Custom extends BasePage {
+export interface CustomPage extends BasePage {
   type: "custom";
   header?: string;
   content: string;
 }
 
-export type Page = Question | Custom;
+export type Page = QuestionPage | CustomPage;
 export type PageType = Page["type"];
 
 export type Survey = {
