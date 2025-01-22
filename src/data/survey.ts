@@ -1,29 +1,31 @@
-import type { Control } from "./forms";
+import { controlSchema } from "./forms";
+import { z } from "zod";
 
-interface VisibilityRules {
-  visible: boolean; // TODO: implement actual rules
-}
+export const visibilityRulesSchema = z.object({
+  visible: z.boolean(),
+});
 
-interface BasePage {
-  id: string;
-  visibility?: VisibilityRules;
-}
+const basePageSchema = z.object({
+  id: z.string(),
+  visibility: visibilityRulesSchema.optional(),
+});
 
-export interface QuestionPage extends BasePage {
-  type: "question";
-  question: string;
-  answer: Control;
-}
+export const questionPageSchema = basePageSchema.extend({
+  type: z.literal("question"),
+  question: z.string(),
+  answer: controlSchema,
+});
 
-export interface CustomPage extends BasePage {
-  type: "custom";
-  header?: string;
-  content: string;
-}
+export const customPageSchema = basePageSchema.extend({
+  type: z.literal("custom"),
+  header: z.string().optional(),
+  content: z.string(),
+});
 
-export type Page = QuestionPage | CustomPage;
-export type PageType = Page["type"];
+export const pageSchema = z.discriminatedUnion("type", [questionPageSchema, customPageSchema]);
 
-export type Survey = {
-  pages: Page[];
-};
+export const surveySchema = z.object({
+  pages: z.array(pageSchema),
+});
+
+export type PageType = z.infer<typeof pageSchema>["type"];

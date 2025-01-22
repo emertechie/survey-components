@@ -1,52 +1,49 @@
-export interface BaseControl {
-  id: string;
-  title?: string;
-}
+import { z } from "zod";
 
-export interface TextControl extends BaseControl {
-  type: "text";
-  multiline: boolean;
-  placeholder?: string;
-  required?: boolean;
-  minLength?: number;
-  maxLength?: number;
-}
+const baseControlSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+});
 
-export interface CheckboxControl extends BaseControl {
-  type: "checkbox";
-  label?: string;
-  required?: boolean;
-}
+const radioOptionSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  value: z.string(),
+});
 
-export interface CheckboxListControl extends BaseControl {
-  type: "checkbox-list";
-  labels: string[];
-  minChecked?: number;
-  maxChecked?: number;
-}
+export const textControlSchema = baseControlSchema.extend({
+  type: z.literal("text"),
+  multiline: z.boolean(),
+  placeholder: z.string().optional(),
+  required: z.boolean(),
+  minLength: z.number().optional(),
+  maxLength: z.number().optional(),
+});
 
-export interface RadioListControl extends BaseControl {
-  type: "radio-list";
-  options: RadioOption[];
-  required?: boolean;
-}
+export const checkboxControlSchema = baseControlSchema.extend({
+  type: z.literal("checkbox"),
+  label: z.string().optional(),
+  mustBeChecked: z.boolean(),
+});
 
-export interface RadioOption {
-  id: string;
-  label: string;
-  value: string;
-}
+export const checkboxListControlSchema = baseControlSchema.extend({
+  type: z.literal("checkbox-list"),
+  labels: z.array(z.string()),
+  minChecked: z.number().optional(),
+  maxChecked: z.number().optional(),
+});
 
-export type Control = TextControl | CheckboxControl | CheckboxListControl | RadioListControl;
-export type ControlType = Control["type"];
+export const radioListControlSchema = baseControlSchema.extend({
+  type: z.literal("radio-list"),
+  options: z.array(radioOptionSchema),
+  required: z.boolean(),
+});
 
-export interface Panel {
-  id: string;
-  title?: string;
-  controls: Control[];
-}
+export const controlSchema = z.discriminatedUnion("type", [
+  textControlSchema,
+  checkboxControlSchema,
+  checkboxListControlSchema,
+  radioListControlSchema,
+]);
 
-export interface Form {
-  id: string;
-  panels: Panel[];
-}
+export type ControlType = z.infer<typeof controlSchema>["type"];

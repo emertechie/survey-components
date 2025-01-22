@@ -13,12 +13,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
-import { type Survey } from "@/data/survey";
+import { surveySchema } from "@/data/survey";
 
-const survey = ref<Survey>({
+const survey = ref<z.infer<typeof surveySchema>>({
   pages: [
     {
       id: uuidv4(),
@@ -34,6 +35,7 @@ const survey = ref<Survey>({
         id: uuidv4(),
         type: "checkbox",
         title: "Is it good?",
+        mustBeChecked: true,
       },
     },
   ],

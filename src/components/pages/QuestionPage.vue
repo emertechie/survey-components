@@ -6,6 +6,16 @@
 </template>
 
 <script setup lang="ts">
-import type { QuestionPage } from "@/data/survey";
-const { page } = defineProps<{ page: QuestionPage }>();
+// import { toTypedSchema } from "@vee-validate/zod";
+import * as z from "zod";
+import type { questionPageSchema } from "@/data/survey";
+
+const { page } = defineProps<{ page: z.infer<typeof questionPageSchema> }>();
+
+// const formSchema = toTypedSchema(
+//   z.object({
+//     question: z.string().min(1).max(1000),
+//     answerType: z.string().min(1).max(1000),
+//   }),
+// );
 </script>

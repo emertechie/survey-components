@@ -6,6 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import type { CustomPage } from "@/data/survey";
-const { page } = defineProps<{ page: CustomPage }>();
+import * as z from "zod";
+import { customPageSchema } from "@/data/survey";
+
+const { page } = defineProps<{ page: z.infer<typeof customPageSchema> }>();
 </script>

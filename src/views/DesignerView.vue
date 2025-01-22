@@ -21,12 +21,13 @@
 </template>
 
 <script setup lang="ts">
-import type { PageType, Survey } from "@/data/survey";
+import { z } from "zod";
+import { surveySchema, type PageType } from "@/data/survey";
 import QuestionPage from "@/components/pages/QuestionPage.vue";
 import CustomPage from "@/components/pages/CustomPage.vue";
 import type { Component } from "vue";
 
-const { survey } = defineProps<{ survey: Survey }>();
+const { survey } = defineProps<{ survey: z.infer<typeof surveySchema> }>();
 
 const components: Record<PageType, Component> = {
   question: QuestionPage,
