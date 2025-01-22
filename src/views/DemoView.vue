@@ -1,7 +1,8 @@
 <template>
   <div class="flex min-h-dvh">
     <DesignerView
-      :survey
+      :modelValue="survey"
+      @surveyChanged="onSurveyChanged"
       class="w-full bg-slate-100 p-3 sm:w-[36rem]"
     />
     <PreviewView
@@ -13,13 +14,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
+import type { Survey } from "@/data/survey";
+import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions";
 import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
-import { surveySchema } from "@/data/survey";
 
-const survey = ref<z.infer<typeof surveySchema>>({
+const survey = ref<Survey>({
   pages: [
     {
       id: uuidv4(),
@@ -31,27 +32,21 @@ const survey = ref<z.infer<typeof surveySchema>>({
       id: uuidv4(),
       type: "question",
       question: "My first question",
-      answer: {
-        id: uuidv4(),
-        type: "text",
-        title: "Is it good?",
-        multiline: false,
-        required: false,
-      },
+      answer: createTextDefinition({ title: "Is it good?" }),
     },
     {
       id: uuidv4(),
       type: "question",
       question: "My first question",
-      answer: {
-        id: uuidv4(),
-        type: "checkbox",
-        title: "Is it good?",
-        mustBeChecked: true,
-      },
+      answer: createCheckboxDefinition({ title: "Is it good?", mustBeChecked: true }),
     },
   ],
 });
+
+function onSurveyChanged(updatedSurvey: Survey) {
+  console.log("Survey changed");
+  // survey.value = updatedSurvey;
+}
 
 // TODO: store updated in localstorage. Have reset button
 </script>

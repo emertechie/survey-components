@@ -8,8 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { z } from "zod";
-import { surveySchema } from "@/data/survey";
+import { type Survey } from "@/data/survey";
 
-const { survey } = defineProps<{ survey: z.infer<typeof surveySchema> }>();
+const { survey } = defineProps<{ survey: Survey }>();
 </script>
