@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
-
 <template>
-  <main>
-    <h1 class="text-3xl font-bold">Hello world!</h1>
-  </main>
+  <div class="p-4">
+    <RouterLink to="/demo" class="text-blue-500 hover:underline">demo</RouterLink>
+  </div>
 </template>
+
+<script setup lang="ts">
+import { RouterLink } from "vue-router";
+</script>
