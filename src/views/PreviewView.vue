@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-lg font-medium">Preview</h1>
+    <h1 class="text-xl font-bold">Preview</h1>
     <div>
       <pre class="font-mono text-xs">{{ survey }}</pre>
     </div>
@@ -8,7 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Survey } from "@/data/survey";
+import { z } from "zod";
+import { surveySchema } from "@/data/survey";
 
-const { survey } = defineProps<{ survey: Survey }>();
+const { survey } = defineProps<{ survey: z.infer<typeof surveySchema> }>();
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <div class="flex">
+  <div class="flex min-h-dvh">
     <DesignerView
       :survey
-      class="h-dvh w-full bg-slate-100 p-3 sm:w-[36rem]"
+      class="w-full bg-slate-100 p-3 sm:w-[36rem]"
     />
     <PreviewView
       :survey
@@ -26,6 +26,18 @@ const survey = ref<z.infer<typeof surveySchema>>({
       type: "custom",
       header: "Welcome",
       content: "Welcome to my little survey",
+    },
+    {
+      id: uuidv4(),
+      type: "question",
+      question: "My first question",
+      answer: {
+        id: uuidv4(),
+        type: "text",
+        title: "Is it good?",
+        multiline: false,
+        required: false,
+      },
     },
     {
       id: uuidv4(),

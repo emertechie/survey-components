@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="mb-4 text-lg font-medium">Designer</h1>
+    <h1 class="mb-4 text-xl font-bold">Designer</h1>
 
     <div class="space-y-4">
       <div
@@ -12,10 +12,6 @@
           :page
         />
       </div>
-    </div>
-
-    <div class="mt-8">
-      <pre class="font-mono text-xs text-gray-500">{{ survey }}</pre>
     </div>
   </div>
 </template>

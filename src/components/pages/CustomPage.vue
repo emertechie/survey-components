@@ -1,6 +1,6 @@
 <template>
   <div class="rounded-lg bg-white px-2 py-1 shadow">
-    <h1>Custom Page</h1>
+    <h1 class="font-semibold">Custom Page</h1>
     <pre class="text-xs text-gray-500">{{ page.id }}</pre>
   </div>
 </template>
