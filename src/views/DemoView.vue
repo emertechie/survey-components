@@ -1,7 +1,13 @@
 <template>
   <div class="flex">
-    <DesignerView :survey class="h-dvh w-full bg-slate-100 p-3 sm:w-[36rem]" />
-    <PreviewView :survey class="preview hidden p-3 pl-5 sm:block sm:w-full" />
+    <DesignerView
+      :survey
+      class="h-dvh w-full bg-slate-100 p-3 sm:w-[36rem]"
+    />
+    <PreviewView
+      :survey
+      class="preview hidden p-3 pl-5 sm:block sm:w-full"
+    />
   </div>
 </template>
 
