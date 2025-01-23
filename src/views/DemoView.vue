@@ -3,6 +3,7 @@
     <DesignerView
       :survey
       :updateSurvey
+      :undo
       class="w-full bg-slate-100 p-3 sm:w-[36rem]"
     />
     <PreviewView
@@ -19,9 +20,8 @@ import { createCheckboxDefinition, createTextDefinition } from "@/data/definitio
 import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
 import { useImmer } from "@/lib/useImmer";
-import { watchEffect } from "vue";
 
-const [survey, updateSurvey, patches, inversePatches] = useImmer<SurveyDefinition>({
+const [survey, updateSurvey, { inversePatches, applyPatches }] = useImmer<SurveyDefinition>({
   pages: [
     {
       id: uuidv4(),
@@ -44,12 +44,23 @@ const [survey, updateSurvey, patches, inversePatches] = useImmer<SurveyDefinitio
   ],
 });
 
-watchEffect(() => {
-  console.log("Patches", patches.value);
-});
-watchEffect(() => {
-  console.log("Inverse Patches", inversePatches.value);
-});
+// watchEffect(() => {
+//   console.log("Patches", JSON.stringify(patches.value, null, 2));
+// });
+// watchEffect(() => {
+//   console.log("Inverse Patches", JSON.stringify(inversePatches.value, null, 2));
+// });
+
+function undo() {
+  const patch = inversePatches.value.pop();
+  if (patch) {
+    survey.value = applyPatches(survey.value, [patch]);
+  }
+}
+
+// function redo() {
+//   TODO
+// }
 
 // TODO: store updated in localstorage. Have reset button
 </script>

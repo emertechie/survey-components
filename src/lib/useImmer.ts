@@ -1,4 +1,4 @@
-import { produce, type Patch, enablePatches } from "immer";
+import { produce, type Patch, enablePatches, applyPatches } from "immer";
 import { ref, shallowRef } from "vue";
 
 enablePatches();
@@ -14,5 +14,5 @@ export function useImmer<T>(baseState: T) {
     });
   };
 
-  return [state, update, patches, inversePatches] as const;
+  return [state, update, { patches, inversePatches, applyPatches }] as const;
 }

@@ -10,6 +10,7 @@
       <FormField
         v-slot="{ componentField }"
         name="question"
+        :model-value="page.question"
         @update:model-value="(value) => onUpdate({ question: value })"
       >
         <FormItem>
@@ -27,6 +28,7 @@
       <FormField
         v-slot="{ componentField }"
         name="answer.type"
+        :model-value="page.answer?.type"
         @update:model-value="(value) => onUpdate({ answer: createDefaultDefinition(value) })"
       >
         <FormItem>

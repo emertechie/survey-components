@@ -14,10 +14,23 @@
         />
       </div>
     </div>
+    <div class="flex gap-2">
+      <Button
+        v-if="undo"
+        @click="undo"
+        >Undo</Button
+      >
+      <Button
+        v-if="redo"
+        @click="redo"
+        >Redo</Button
+      >
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { type Component } from "vue";
 import {
   type PageDefinitionType,
   type SurveyDefinition,
@@ -25,11 +38,13 @@ import {
 } from "@/data/definitions/survey";
 import QuestionPage from "@/components/pages/QuestionPage.vue";
 import CustomPage from "@/components/pages/CustomPage.vue";
-import type { Component } from "vue";
+import { Button } from "@/components/ui/button";
 
-const { survey, updateSurvey } = defineProps<{
+const { survey, updateSurvey, undo, redo } = defineProps<{
   survey: SurveyDefinition;
   updateSurvey: (updater: (draft: SurveyDefinition) => void) => void;
+  undo?: () => void;
+  redo?: () => void;
 }>();
 
 const components: Record<PageDefinitionType, Component> = {
