@@ -10,25 +10,28 @@ const basePageSchema = z.object({
   visibility: visibilityRulesSchema.optional(),
 });
 
-export const questionPageSchema = basePageSchema.extend({
+export const questionPageDefinitionSchema = basePageSchema.extend({
   type: z.literal("question"),
-  question: z.string(),
+  question: z.string().min(1),
   answer: definitionSchema,
 });
-export type QuestionPage = z.infer<typeof questionPageSchema>;
+export type QuestionPageDefinition = z.infer<typeof questionPageDefinitionSchema>;
 
-export const customPageSchema = basePageSchema.extend({
+export const customPageDefinitionSchema = basePageSchema.extend({
   type: z.literal("custom"),
   header: z.string().optional(),
   content: z.string(),
 });
-export type CustomPage = z.infer<typeof customPageSchema>;
+export type CustomPageDefinition = z.infer<typeof customPageDefinitionSchema>;
 
-export const pageSchema = z.discriminatedUnion("type", [questionPageSchema, customPageSchema]);
-export type Page = z.infer<typeof pageSchema>;
-export type PageType = Page["type"];
+export const pageDefinitionSchema = z.discriminatedUnion("type", [
+  questionPageDefinitionSchema,
+  customPageDefinitionSchema,
+]);
+export type PageDefinition = z.infer<typeof pageDefinitionSchema>;
+export type PageDefinitionType = PageDefinition["type"];
 
-export const surveySchema = z.object({
-  pages: z.array(pageSchema),
+export const surveyDefinitionSchema = z.object({
+  pages: z.array(pageDefinitionSchema),
 });
-export type Survey = z.infer<typeof surveySchema>;
+export type SurveyDefinition = z.infer<typeof surveyDefinitionSchema>;

@@ -1,8 +1,8 @@
 <template>
   <div class="flex min-h-dvh">
     <DesignerView
-      :modelValue="survey"
-      @surveyChanged="onSurveyChanged"
+      :survey
+      :updateSurvey
       class="w-full bg-slate-100 p-3 sm:w-[36rem]"
     />
     <PreviewView
@@ -13,14 +13,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { v4 as uuidv4 } from "uuid";
-import type { Survey } from "@/data/survey";
+import type { SurveyDefinition } from "@/data/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions";
 import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
+import { useImmer } from "@/lib/useImmer";
+import { watchEffect } from "vue";
 
-const survey = ref<Survey>({
+const [survey, updateSurvey, patches, inversePatches] = useImmer<SurveyDefinition>({
   pages: [
     {
       id: uuidv4(),
@@ -31,22 +32,24 @@ const survey = ref<Survey>({
     {
       id: uuidv4(),
       type: "question",
-      question: "My first question",
-      answer: createTextDefinition({ title: "Is it good?" }),
+      question: "How do you feel today?",
+      answer: createTextDefinition(),
     },
     {
       id: uuidv4(),
       type: "question",
-      question: "My first question",
-      answer: createCheckboxDefinition({ title: "Is it good?", mustBeChecked: true }),
+      question: "Is this a great question?",
+      answer: createCheckboxDefinition({ mustBeChecked: true }),
     },
   ],
 });
 
-function onSurveyChanged(updatedSurvey: Survey) {
-  console.log("Survey changed");
-  // survey.value = updatedSurvey;
-}
+watchEffect(() => {
+  console.log("Patches", patches.value);
+});
+watchEffect(() => {
+  console.log("Inverse Patches", inversePatches.value);
+});
 
 // TODO: store updated in localstorage. Have reset button
 </script>

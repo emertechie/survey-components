@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Survey } from "@/data/survey";
+import { type SurveyDefinition } from "@/data/survey";
 
-const { survey } = defineProps<{ survey: Survey }>();
+const { survey } = defineProps<{ survey: SurveyDefinition }>();
 </script>

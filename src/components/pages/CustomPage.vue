@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import type { CustomPage } from "@/data/survey";
+import type { CustomPageDefinition } from "@/data/survey";
 
-const { modelValue: page } = defineProps<{ modelValue: CustomPage }>();
+const { page } = defineProps<{ page: CustomPageDefinition }>();
 </script>
