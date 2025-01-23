@@ -10,7 +10,7 @@
         <component
           :is="components[page.type]"
           :page
-          @update:modelValue="onPageChanged"
+          @partial-update="onPartialUpdate"
         />
       </div>
     </div>
@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import { type Component } from "vue";
+import { merge } from "lodash-es";
 import {
   type PageDefinitionType,
   type SurveyDefinition,
@@ -54,11 +55,11 @@ const components: Record<PageDefinitionType, Component> = {
 
 type PartialWithId<T> = Partial<T> & { id: string };
 
-function onPageChanged(page: PartialWithId<PageDefinition>) {
+function onPartialUpdate(partialUpdates: PartialWithId<PageDefinition>) {
   updateSurvey((draft) => {
-    const index = draft.pages.findIndex((existingPage) => existingPage.id === page.id);
+    const index = draft.pages.findIndex((existingPage) => existingPage.id === partialUpdates.id);
     if (index !== -1) {
-      Object.assign(draft.pages[index], page);
+      merge(draft.pages[index], partialUpdates);
     }
   });
 }

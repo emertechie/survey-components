@@ -11,7 +11,7 @@
         v-slot="{ componentField }"
         name="question"
         :model-value="page.question"
-        @update:model-value="(value) => onUpdate({ question: value })"
+        @update:model-value="(value) => onPartialUpdate({ question: value })"
       >
         <FormItem>
           <FormControl>
@@ -29,7 +29,7 @@
         v-slot="{ componentField }"
         name="answer.type"
         :model-value="page.answer?.type"
-        @update:model-value="(value) => onUpdate({ answer: createDefaultDefinition(value) })"
+        @update:model-value="(value) => onPartialUpdate({ answer: createDefaultDefinition(value) })"
       >
         <FormItem>
           <FormLabel>Answer Type</FormLabel>
@@ -53,6 +53,8 @@
       <component
         v-if="page.answer?.type"
         :is="answerFieldsByType[page.answer.type]"
+        :definition="page.answer"
+        @partial-update="(value: any) => onPartialUpdate({ answer: { ...value } })"
       />
 
       <Button type="submit"> Submit </Button>
@@ -91,7 +93,7 @@ import { answerFieldsByType } from "@/components/pages/answerTypeFields";
 
 const { page } = defineProps<{ page: QuestionPageDefinition }>();
 const emit = defineEmits<{
-  "update:modelValue": [Partial<QuestionPageDefinition>];
+  "partial-update": [Partial<QuestionPageDefinition>];
 }>();
 
 const pageFormSchema = toTypedSchema(questionPageDefinitionSchema);
@@ -101,8 +103,8 @@ const form = useForm({
   initialValues: page,
 });
 
-function onUpdate(update: Partial<QuestionPageDefinition>) {
-  emit("update:modelValue", { id: page.id, ...update });
+function onPartialUpdate(update: Partial<QuestionPageDefinition>) {
+  emit("partial-update", { id: page.id, ...update });
 }
 
 const onSubmit = form.handleSubmit(() => {

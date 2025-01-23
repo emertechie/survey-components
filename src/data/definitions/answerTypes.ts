@@ -14,14 +14,14 @@ export const textDefinitionSchema = baseDefinitionSchema.extend({
   minLength: z.number().optional(),
   maxLength: z.number().optional(),
 });
-type TextDefinition = z.infer<typeof textDefinitionSchema>;
+export type TextDefinition = z.infer<typeof textDefinitionSchema>;
 
 export const checkboxDefinitionSchema = baseDefinitionSchema.extend({
   type: z.literal("checkbox"),
   label: z.string().optional(),
   mustBeChecked: z.boolean(),
 });
-type CheckboxDefinition = z.infer<typeof checkboxDefinitionSchema>;
+export type CheckboxDefinition = z.infer<typeof checkboxDefinitionSchema>;
 
 export const checkboxListDefinitionSchema = baseDefinitionSchema.extend({
   type: z.literal("checkbox-list"),
@@ -29,7 +29,7 @@ export const checkboxListDefinitionSchema = baseDefinitionSchema.extend({
   minChecked: z.number().optional(),
   maxChecked: z.number().optional(),
 });
-type CheckboxListDefinition = z.infer<typeof checkboxListDefinitionSchema>;
+export type CheckboxListDefinition = z.infer<typeof checkboxListDefinitionSchema>;
 
 const radioOptionSchema = z.object({
   label: z.string(),
@@ -41,7 +41,7 @@ export const radioListDefinitionSchema = baseDefinitionSchema.extend({
   options: z.array(radioOptionSchema),
   required: z.boolean(),
 });
-type RadioListDefinition = z.infer<typeof radioListDefinitionSchema>;
+export type RadioListDefinition = z.infer<typeof radioListDefinitionSchema>;
 
 export const answerDefinitionSchema = z.discriminatedUnion("type", [
   textDefinitionSchema,
