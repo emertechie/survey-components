@@ -43,15 +43,15 @@ export const radioListDefinitionSchema = baseDefinitionSchema.extend({
 });
 type RadioListDefinition = z.infer<typeof radioListDefinitionSchema>;
 
-export const definitionSchema = z.discriminatedUnion("type", [
+export const answerDefinitionSchema = z.discriminatedUnion("type", [
   textDefinitionSchema,
   checkboxDefinitionSchema,
   checkboxListDefinitionSchema,
   radioListDefinitionSchema,
 ]);
 
-export type Definition = z.infer<typeof definitionSchema>;
-export type DefinitionType = Definition["type"];
+export type AnswerDefinition = z.infer<typeof answerDefinitionSchema>;
+export type AnswerDefinitionType = AnswerDefinition["type"];
 
 export function createTextDefinition(overrides?: Partial<TextDefinition>): TextDefinition {
   return {

@@ -18,7 +18,11 @@
 </template>
 
 <script setup lang="ts">
-import { type PageDefinitionType, type SurveyDefinition, type PageDefinition } from "@/data/survey";
+import {
+  type PageDefinitionType,
+  type SurveyDefinition,
+  type PageDefinition,
+} from "@/data/definitions/survey";
 import QuestionPage from "@/components/pages/QuestionPage.vue";
 import CustomPage from "@/components/pages/CustomPage.vue";
 import type { Component } from "vue";

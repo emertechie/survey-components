@@ -1,4 +1,4 @@
-import { definitionSchema } from "./definitions";
+import { answerDefinitionSchema } from "./answerTypes";
 import { z } from "zod";
 
 export const visibilityRulesSchema = z.object({
@@ -13,7 +13,7 @@ const basePageSchema = z.object({
 export const questionPageDefinitionSchema = basePageSchema.extend({
   type: z.literal("question"),
   question: z.string().min(1),
-  answer: definitionSchema,
+  answer: answerDefinitionSchema,
 });
 export type QuestionPageDefinition = z.infer<typeof questionPageDefinitionSchema>;
 

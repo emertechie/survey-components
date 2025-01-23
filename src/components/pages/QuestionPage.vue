@@ -63,14 +63,18 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
-import { questionPageDefinitionSchema, type QuestionPageDefinition } from "@/data/survey";
-import type { Definition, DefinitionType } from "@/data/definitions";
+import {
+  questionPageDefinitionSchema,
+  type QuestionPageDefinition,
+} from "@/data/definitions/survey";
 import {
   createCheckboxDefinition,
   createCheckboxListDefinition,
   createRadioListDefinition,
   createTextDefinition,
-} from "@/data/definitions";
+  type AnswerDefinition,
+  type AnswerDefinitionType,
+} from "@/data/definitions/answerTypes";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -103,8 +107,8 @@ const onSubmit = form.handleSubmit(() => {
   // onSave();
 });
 
-function createDefaultDefinition(definitionType: DefinitionType): Definition {
-  switch (definitionType) {
+function createDefaultDefinition(type: AnswerDefinitionType): AnswerDefinition {
+  switch (type) {
     case "text":
       return createTextDefinition();
     case "checkbox":

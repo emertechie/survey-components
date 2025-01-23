@@ -14,8 +14,8 @@
 
 <script setup lang="ts">
 import { v4 as uuidv4 } from "uuid";
-import type { SurveyDefinition } from "@/data/survey";
-import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions";
+import type { SurveyDefinition } from "@/data/definitions/survey";
+import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
 import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
 import { useImmer } from "@/lib/useImmer";
