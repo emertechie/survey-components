@@ -1,6 +1,6 @@
 <template>
   <FormField
-    v-slot="{ field }"
+    v-slot="{ componentField }"
     name="multiline"
     :model-value="definition.multiline"
     @update:model-value="(value) => onUpdate({ multiline: value })"
@@ -10,9 +10,7 @@
         <div class="flex items-center space-x-2">
           <Checkbox
             id="multiline"
-            :name="field.name"
-            :checked="field.value"
-            @update:checked="field.onChange"
+            v-bind="componentField"
           />
           <label
             for="multiline"
