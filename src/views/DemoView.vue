@@ -33,7 +33,10 @@ const [survey, updateSurvey, { inversePatches, applyPatches }] = useImmer<Survey
       id: uuidv4(),
       type: "question",
       question: "How do you feel today?",
-      answer: createTextDefinition(),
+      answer: createTextDefinition({
+        multiline: true,
+        placeholder: "Tell me",
+      }),
     },
     {
       id: uuidv4(),

@@ -1,6 +1,6 @@
 <template>
-  <div class="rounded-lg bg-white px-2 py-2 shadow">
-    <h1 class="mb-2 font-semibold">Question Page</h1>
+  <div class="rounded-lg bg-white px-2 pb-4 pt-2 shadow">
+    <h1 class="mb-2 font-semibold">Question</h1>
 
     <form
       class="mb-2 space-y-4"
@@ -56,11 +56,7 @@
         :definition="page.answer"
         @partial-update="(value: any) => onPartialUpdate({ answer: { ...value } })"
       />
-
-      <Button type="submit"> Submit </Button>
     </form>
-
-    <pre>{{ page.answer.type }}</pre>
   </div>
 </template>
 
@@ -81,7 +77,6 @@ import {
 } from "@/data/definitions/answerTypes";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
