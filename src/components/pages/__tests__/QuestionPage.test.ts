@@ -28,11 +28,11 @@ test("can display a text question", async () => {
   const answerTypeSelect = wrapper.get<HTMLSelectElement>('select[name="answer.type"]');
   const placeholderInput = wrapper.get<HTMLInputElement>('input[name="placeholder"]');
   const multilineCheckboxInput = wrapper.get<HTMLInputElement>('input[name="multiline"]');
-  // const requiredCheckboxButton = wrapper.get<HTMLButtonElement>('input[name="required"]');
+  const requiredCheckboxInput = wrapper.get<HTMLInputElement>('input[name="required"]');
 
   expect(questionTextArea.element.value).toBe("What is your name?");
   expect(answerTypeSelect.element.value).toBe("text");
   expect(placeholderInput.element.value).toBe("Enter your name");
   expect(multilineCheckboxInput.element.checked).toBe(true);
-  // expect(requiredCheckboxButton.element.getAttribute("aria-checked")).toBe("true");
+  expect(requiredCheckboxInput.element.checked).toBe(true);
 });

@@ -42,7 +42,32 @@
     </FormItem>
   </FormField>
 
-  <!-- <h3 class="text-xs uppercase tracking-wide text-gray-500">Validation</h3> -->
+  <h3 class="text-xs uppercase tracking-wide text-gray-500">Validation</h3>
+
+  <FormField
+    v-slot="{ componentField }"
+    name="required"
+    :model-value="definition.required"
+    @update:model-value="(value) => onUpdate({ required: value })"
+  >
+    <FormItem>
+      <FormControl>
+        <div class="flex items-center space-x-2">
+          <Checkbox
+            id="required"
+            v-bind="componentField"
+          />
+          <label
+            for="required"
+            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Required
+          </label>
+        </div>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  </FormField>
 </template>
 
 <script setup lang="ts">
