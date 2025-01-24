@@ -24,24 +24,18 @@ test("can display a text question", async () => {
 
   await wrapper.vm.$nextTick();
 
-  const questionTextArea = wrapper.get<HTMLTextAreaElement>('textarea[name="question"]');
-  const answerTypeSelect = wrapper.get<HTMLSelectElement>('select[name="answer.type"]');
-  const placeholderInput = wrapper.get<HTMLInputElement>('input[name="placeholder"]');
-  const multilineCheckboxInput = wrapper.get<HTMLInputElement>('input[name="multiline"]');
-  const requiredCheckboxInput = wrapper.get<HTMLInputElement>('input[name="required"]');
-
-  expect(questionTextArea.element.value).toBe("What is your name?");
-  expect(answerTypeSelect.element.value).toBe("text");
-  expect(placeholderInput.element.value).toBe("Enter your name");
-  expect(multilineCheckboxInput.element.checked).toBe(true);
-  expect(requiredCheckboxInput.element.checked).toBe(true);
+  expect(wrapper.get<HTMLTextAreaElement>('textarea[name="question"]').element.value).toBe("What is your name?");
+  expect(wrapper.get<HTMLSelectElement>('select[name="answer.type"]').element.value).toBe("text");
+  expect(wrapper.get<HTMLInputElement>('input[name="placeholder"]').element.value).toBe("Enter your name");
+  expect(wrapper.get<HTMLInputElement>('input[name="multiline"]').element.checked).toBe(true);
+  expect(wrapper.get<HTMLInputElement>('input[name="required"]').element.checked).toBe(true);
 });
 
 test("can display a checkbox question", async () => {
   const page: QuestionPageDefinition = {
     id: "1",
     type: "question",
-    question: "Confirm you are old enough",
+    question: "Confirm age",
     answer: createCheckboxDefinition({
       label: "I am over 18",
       mustBeChecked: true,
@@ -54,15 +48,10 @@ test("can display a checkbox question", async () => {
 
   await wrapper.vm.$nextTick();
 
-  const questionTextArea = wrapper.get<HTMLTextAreaElement>('textarea[name="question"]');
-  const answerTypeSelect = wrapper.get<HTMLSelectElement>('select[name="answer.type"]');
-  const labelInput = wrapper.get<HTMLInputElement>('input[name="label"]');
-  const mustBeCheckedCheckboxInput = wrapper.get<HTMLInputElement>('input[name="mustBeChecked"]');
-
-  expect(questionTextArea.element.value).toBe("Confirm you are old enough");
-  expect(answerTypeSelect.element.value).toBe("checkbox");
-  expect(labelInput.element.value).toBe("I am over 18");
-  expect(mustBeCheckedCheckboxInput.element.checked).toBe(true);
+  expect(wrapper.get<HTMLTextAreaElement>('textarea[name="question"]').element.value).toBe("Confirm age");
+  expect(wrapper.get<HTMLSelectElement>('select[name="answer.type"]').element.value).toBe("checkbox");
+  expect(wrapper.get<HTMLInputElement>('input[name="label"]').element.value).toBe("I am over 18");
+  expect(wrapper.get<HTMLInputElement>('input[name="mustBeChecked"]').element.checked).toBe(true);
 });
 
 test("can change answer type", async () => {
