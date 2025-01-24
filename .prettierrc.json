@@ -2,5 +2,13 @@
   "$schema": "https://json.schemastore.org/prettierrc",
   "printWidth": 100,
   "plugins": ["prettier-plugin-tailwindcss"],
-  "singleAttributePerLine": true
+  "singleAttributePerLine": true,
+  "overrides": [
+    {
+      "files": "src/**/__tests__/*",
+      "options": {
+        "printWidth": 120
+      }
+    }
+  ]
 }

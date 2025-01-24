@@ -64,3 +64,60 @@ test("can display a checkbox question", async () => {
   expect(labelInput.element.value).toBe("I am over 18");
   expect(mustBeCheckedCheckboxInput.element.checked).toBe(true);
 });
+
+test("can change answer type", async () => {
+  const page: QuestionPageDefinition = {
+    id: "1",
+    type: "question",
+    question: "What is your name?",
+    answer: createTextDefinition({
+      multiline: true,
+      required: true,
+      placeholder: "Enter your name",
+      minLength: 1,
+      maxLength: 100,
+    }),
+  };
+
+  const wrapper = mount(QuestionPage, {
+    props: { page },
+  });
+
+  await wrapper.vm.$nextTick();
+
+  // Verify initial text question setup
+  expect(wrapper.get<HTMLTextAreaElement>('textarea[name="question"]').element.value).toBe("What is your name?");
+  expect(wrapper.get<HTMLSelectElement>('select[name="answer.type"]').element.value).toBe("text");
+  expect(wrapper.get<HTMLInputElement>('input[name="placeholder"]').element.value).toBe("Enter your name");
+  expect(wrapper.get<HTMLInputElement>('input[name="multiline"]').element.checked).toBe(true);
+  expect(wrapper.get<HTMLInputElement>('input[name="required"]').element.checked).toBe(true);
+
+  // Change to checkbox answer with default values
+  await wrapper.setProps({
+    page: {
+      ...page,
+      answer: createCheckboxDefinition(),
+    },
+  });
+
+  // Verify checkbox question setup
+  expect(wrapper.get<HTMLTextAreaElement>('textarea[name="question"]').element.value).toBe("What is your name?");
+  expect(wrapper.get<HTMLSelectElement>('select[name="answer.type"]').element.value).toBe("checkbox");
+  expect(wrapper.get<HTMLInputElement>('input[name="label"]').element.value).toBe("");
+  expect(wrapper.get<HTMLInputElement>('input[name="mustBeChecked"]').element.checked).toBe(false);
+
+  // Change back to text answer with default values
+  await wrapper.setProps({
+    page: {
+      ...page,
+      answer: createTextDefinition(),
+    },
+  });
+
+  // Verify text question setup
+  expect(wrapper.get<HTMLTextAreaElement>('textarea[name="question"]').element.value).toBe("What is your name?");
+  expect(wrapper.get<HTMLSelectElement>('select[name="answer.type"]').element.value).toBe("text");
+  expect(wrapper.get<HTMLInputElement>('input[name="placeholder"]').element.value).toBe("");
+  expect(wrapper.get<HTMLInputElement>('input[name="multiline"]').element.checked).toBe(false);
+  expect(wrapper.get<HTMLInputElement>('input[name="required"]').element.checked).toBe(false);
+});
