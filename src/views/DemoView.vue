@@ -41,8 +41,11 @@ const [survey, updateSurvey, { inversePatches, applyPatches }] = useImmer<Survey
     {
       id: uuidv4(),
       type: "question",
-      question: "Is this a great question?",
-      answer: createCheckboxDefinition({ mustBeChecked: true }),
+      question: "Confirm your age",
+      answer: createCheckboxDefinition({
+        label: "I am over 18",
+        mustBeChecked: true,
+      }),
     },
   ],
 });
