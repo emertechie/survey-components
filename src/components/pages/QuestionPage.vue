@@ -1,5 +1,8 @@
 <template>
-  <div class="rounded-lg bg-white px-2 pb-4 pt-2 shadow">
+  <div
+    class="rounded-lg bg-white px-2 pb-4 pt-2 shadow"
+    :data-testid="page.id"
+  >
     <h1 class="mb-2 font-semibold">Question</h1>
 
     <form

@@ -9,12 +9,12 @@
       <FormControl>
         <div class="flex items-center space-x-2">
           <Checkbox
-            id="multiline"
             v-bind="componentField"
+            :id="multilineId"
           />
           <label
-            for="multiline"
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            :for="multilineId"
           >
             Multiline
           </label>
@@ -54,12 +54,12 @@
       <FormControl>
         <div class="flex items-center space-x-2">
           <Checkbox
-            id="required"
             v-bind="componentField"
+            :id="requiredId"
           />
           <label
-            for="required"
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            :for="requiredId"
           >
             Required
           </label>
@@ -75,11 +75,16 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { type TextDefinition } from "@/data/definitions/answerTypes";
+import { useId } from "vue";
 
 const { definition } = defineProps<{ definition: TextDefinition }>();
 const emit = defineEmits<{
   "partial-update": [Partial<TextDefinition>];
 }>();
+
+const componentId = useId();
+const multilineId = `multiline-${componentId}`;
+const requiredId = `required-${componentId}`;
 
 function onUpdate(update: Partial<TextDefinition>) {
   emit("partial-update", { ...update });

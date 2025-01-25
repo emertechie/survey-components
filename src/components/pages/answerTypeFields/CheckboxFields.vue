@@ -28,12 +28,8 @@
     <FormItem>
       <FormControl>
         <div class="flex items-center space-x-2">
-          <Checkbox
-            id="mustBeChecked"
-            v-bind="componentField"
-          />
+          <Checkbox v-bind="componentField" />
           <label
-            for="mustBeChecked"
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
             Must be checked

@@ -1,5 +1,8 @@
 <template>
-  <div class="rounded-lg bg-white px-2 py-1 shadow">
+  <div
+    class="rounded-lg bg-white px-2 py-1 shadow"
+    :data-testid="page.id"
+  >
     <h1 class="font-semibold">Custom Page</h1>
     <pre class="text-xs text-gray-500">{{ page.id }}</pre>
   </div>
