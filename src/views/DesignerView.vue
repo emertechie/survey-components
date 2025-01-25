@@ -10,7 +10,7 @@
         <component
           :is="components[page.type]"
           :page
-          @partial-update="onPartialUpdate"
+          @update="onPageUpdate"
         />
       </div>
     </div>
@@ -40,6 +40,7 @@ import {
 import QuestionPage from "@/components/pages/QuestionPage.vue";
 import CustomPage from "@/components/pages/CustomPage.vue";
 import { Button } from "@/components/ui/button";
+import type { UpdateType } from "@/components/pages/types";
 
 const { survey, updateSurvey, undo, redo } = defineProps<{
   survey: SurveyDefinition;
@@ -55,11 +56,15 @@ const components: Record<PageDefinitionType, Component> = {
 
 type PartialWithId<T> = Partial<T> & { id: string };
 
-function onPartialUpdate(partialUpdates: PartialWithId<PageDefinition>) {
+function onPageUpdate(update: PartialWithId<PageDefinition>, updateType: UpdateType) {
   updateSurvey((draft) => {
-    const index = draft.pages.findIndex((existingPage) => existingPage.id === partialUpdates.id);
+    const index = draft.pages.findIndex((existingPage) => existingPage.id === update.id);
     if (index !== -1) {
-      merge(draft.pages[index], partialUpdates);
+      if (updateType === "assign") {
+        Object.assign(draft.pages[index], update);
+      } else if (updateType === "merge") {
+        merge(draft.pages[index], update);
+      }
     }
   });
 }

@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import type { CustomPageDefinition } from "@/data/survey";
+import type { CustomPageDefinition } from "@/data/definitions/survey";
 
 const { page } = defineProps<{ page: CustomPageDefinition }>();
 </script>
