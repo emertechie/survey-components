@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import type { SurveyDefinition } from "@/data/definitions/survey";
-import { createTextDefinition } from "@/data/definitions/answerTypes";
+import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
 import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
 import { useImmer } from "@/lib/useImmer";
@@ -35,6 +35,15 @@ const [survey, updateSurvey] = useImmer<SurveyDefinition>({
         multiline: true,
         placeholder: "Enter your answer",
         required: true,
+      }),
+    },
+    {
+      id: "recommend-question",
+      type: "question",
+      question: "Would you recommend our app to others?",
+      answer: createCheckboxDefinition({
+        mustBeChecked: true,
+        label: "Yes",
       }),
     },
   ],
