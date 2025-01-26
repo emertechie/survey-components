@@ -1,7 +1,7 @@
 <template>
   <div class="fixed inset-0 flex">
     <!-- Left scrollable panel -->
-    <div class="relative h-full w-96 overflow-y-auto border-r bg-slate-100">
+    <div class="relative h-full w-full overflow-y-auto border-r bg-slate-100 sm:w-96">
       <DesignerView
         :survey
         :updateSurvey
@@ -16,7 +16,7 @@
     </div>
 
     <!-- Right fixed panel -->
-    <div class="flex-1 bg-slate-50">
+    <div class="hidden flex-1 bg-slate-50 sm:block">
       <PreviewView
         :survey
         class="preview h-full p-3 pl-5"
