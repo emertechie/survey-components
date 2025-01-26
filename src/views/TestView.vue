@@ -1,14 +1,21 @@
 <template>
-  <div class="flex min-h-dvh">
-    <DesignerView
-      :survey
-      :updateSurvey
-      class="w-full bg-slate-100 p-3 sm:w-[36rem]"
-    />
-    <PreviewView
-      :survey
-      class="preview hidden p-3 pl-5 sm:block sm:w-full"
-    />
+  <div class="fixed inset-0 flex">
+    <!-- Left scrollable panel -->
+    <div class="h-full w-96 overflow-y-auto border-r bg-slate-100">
+      <DesignerView
+        :survey
+        :updateSurvey
+        class="p-3"
+      />
+    </div>
+
+    <!-- Right fixed panel -->
+    <div class="flex-1 bg-slate-50">
+      <PreviewView
+        :survey
+        class="preview h-full p-3 pl-5"
+      />
+    </div>
   </div>
 </template>
 
