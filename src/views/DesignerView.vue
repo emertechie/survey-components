@@ -14,7 +14,7 @@
         />
       </div>
     </div>
-    <div class="flex gap-2">
+    <div class="mt-4 flex gap-2">
       <Button
         v-if="undo"
         @click="undo"

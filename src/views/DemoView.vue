@@ -10,6 +10,7 @@
       />
       <button
         class="sticky bottom-4 float-right mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
+        @click="addPage"
       >
         <Plus class="h-6 w-6" />
       </button>
@@ -80,6 +81,17 @@ function undo() {
 // function redo() {
 //   TODO
 // }
+
+function addPage() {
+  updateSurvey((draft) => {
+    draft.pages.push({
+      id: uuidv4(),
+      type: "question",
+      question: "New question",
+      answer: createTextDefinition(),
+    });
+  });
+}
 
 // TODO: store updated in localstorage. Have reset button
 </script>
