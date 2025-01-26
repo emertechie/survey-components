@@ -1,13 +1,18 @@
 <template>
   <div class="fixed inset-0 flex">
     <!-- Left scrollable panel -->
-    <div class="h-full w-96 overflow-y-auto border-r bg-slate-100">
+    <div class="relative h-full w-96 overflow-y-auto border-r bg-slate-100">
       <DesignerView
         :survey
         :updateSurvey
         :undo
         class="p-3"
       />
+      <button
+        class="sticky bottom-4 float-right mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
+      >
+        <Plus class="h-6 w-6" />
+      </button>
     </div>
 
     <!-- Right fixed panel -->
@@ -27,6 +32,7 @@ import { createCheckboxDefinition, createTextDefinition } from "@/data/definitio
 import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
 import { useImmer } from "@/lib/useImmer";
+import { Plus } from "lucide-vue-next";
 
 const [survey, updateSurvey, { inversePatches, applyPatches }] = useImmer<SurveyDefinition>({
   pages: [
