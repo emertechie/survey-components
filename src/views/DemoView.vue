@@ -9,11 +9,39 @@
         class="p-3"
       />
       <button
-        class="sticky bottom-4 float-right mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
+        class="sticky bottom-3 z-20 float-right mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
         @click="addPage"
       >
         <Plus class="h-6 w-6" />
       </button>
+
+      <!-- New toolbar -->
+      <Transition
+        enter-active-class="transition duration-300 ease-out"
+        enter-from-class="transform translate-y-full"
+        enter-to-class="transform translate-y-0"
+        leave-active-class="transition duration-200 ease-in"
+        leave-from-class="transform translate-y-0"
+        leave-to-class="transform translate-y-full"
+      >
+        <div
+          v-if="hasChanges"
+          class="sticky bottom-0 left-0 right-0 z-10 flex w-full justify-center gap-1 border-t bg-gray-100 p-4 shadow-lg"
+        >
+          <button
+            class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            @click="handleSave"
+          >
+            Save
+          </button>
+          <button
+            class="rounded px-4 py-2 text-gray-600 hover:bg-gray-100"
+            @click="handleCancel"
+          >
+            Cancel
+          </button>
+        </div>
+      </Transition>
     </div>
 
     <!-- Right fixed panel -->
@@ -34,35 +62,37 @@ import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
 import { useImmer } from "@/lib/useImmer";
 import { Plus } from "lucide-vue-next";
+import { computed } from "vue";
 
-const [survey, updateSurvey, { inversePatches, applyPatches }] = useImmer<SurveyDefinition>({
-  pages: [
-    {
-      id: uuidv4(),
-      type: "custom",
-      header: "Welcome",
-      content: "Welcome to my little survey",
-    },
-    {
-      id: uuidv4(),
-      type: "question",
-      question: "How do you feel today?",
-      answer: createTextDefinition({
-        multiline: true,
-        placeholder: "Tell me",
-      }),
-    },
-    {
-      id: uuidv4(),
-      type: "question",
-      question: "Confirm your age",
-      answer: createCheckboxDefinition({
-        label: "I am over 18",
-        mustBeChecked: true,
-      }),
-    },
-  ],
-});
+const [survey, updateSurvey, { patches, inversePatches, applyPatches }] =
+  useImmer<SurveyDefinition>({
+    pages: [
+      {
+        id: uuidv4(),
+        type: "custom",
+        header: "Welcome",
+        content: "Welcome to my little survey",
+      },
+      {
+        id: uuidv4(),
+        type: "question",
+        question: "How do you feel today?",
+        answer: createTextDefinition({
+          multiline: true,
+          placeholder: "Tell me",
+        }),
+      },
+      {
+        id: uuidv4(),
+        type: "question",
+        question: "Confirm your age",
+        answer: createCheckboxDefinition({
+          label: "I am over 18",
+          mustBeChecked: true,
+        }),
+      },
+    ],
+  });
 
 // watchEffect(() => {
 //   console.log("Patches", JSON.stringify(patches.value, null, 2));
@@ -70,6 +100,8 @@ const [survey, updateSurvey, { inversePatches, applyPatches }] = useImmer<Survey
 // watchEffect(() => {
 //   console.log("Inverse Patches", JSON.stringify(inversePatches.value, null, 2));
 // });
+
+const hasChanges = computed(() => patches.value.length > 0);
 
 function undo() {
   const patch = inversePatches.value.pop();
@@ -91,6 +123,18 @@ function addPage() {
       answer: createTextDefinition(),
     });
   });
+}
+
+function handleSave() {
+  // TODO: Implement save functionality
+  // Clear patches after saving
+}
+
+function handleCancel() {
+  // Reset to original state by applying all inverse patches
+  // if (inversePatches.value.length) {
+  //   survey.value = applyPatches(survey.value, inversePatches.value);
+  // }
 }
 
 // TODO: store updated in localstorage. Have reset button
