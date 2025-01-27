@@ -57,7 +57,7 @@ import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
 import { useImmer } from "@/lib/useImmer";
 import { Plus } from "lucide-vue-next";
-import { computed, ref, watchEffect } from "vue";
+import { computed, ref, watchEffect, nextTick } from "vue";
 
 const hasChanges = ref(false);
 
@@ -116,13 +116,20 @@ function undo() {
 // }
 
 function addPage() {
+  const newId = uuidv4();
   updateSurvey((draft) => {
     draft.pages.push({
-      id: uuidv4(),
+      id: newId,
       type: "question",
       question: "New question",
       answer: createTextDefinition(),
     });
+  });
+
+  // Wait for DOM update then scroll
+  nextTick(() => {
+    const element = document.querySelector(`#page-${newId}`);
+    element?.scrollIntoView({ behavior: "smooth" });
   });
 }
 

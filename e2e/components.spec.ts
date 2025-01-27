@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("can render question page", async ({ page }) => {
   await page.goto("http://localhost:5173/test");
 
-  const questionPage = page.getByTestId("features-question");
+  const questionPage = page.locator("#page-features-question");
 
   await expect(questionPage.getByPlaceholder("Enter question")).toHaveValue(
     "Which features do you use most frequently?",
@@ -25,7 +25,7 @@ test("can render question page", async ({ page }) => {
 test("can render checkbox page", async ({ page }) => {
   await page.goto("http://localhost:5173/test");
 
-  const questionPage = page.getByTestId("recommend-question");
+  const questionPage = page.locator("#page-recommend-question");
 
   await expect(questionPage.getByPlaceholder("Enter question")).toHaveValue(
     "Would you recommend our app to others?",
@@ -44,7 +44,7 @@ test("can render checkbox page", async ({ page }) => {
 test("can switch answer type", async ({ page }) => {
   await page.goto("http://localhost:5173/test");
 
-  const questionPage = page.getByTestId("features-question");
+  const questionPage = page.locator("#page-features-question");
 
   // Note: there was a bug where placeholder was not reset on changing answer type, so check here and later on
   const placeholder = questionPage.getByLabel("Placeholder");
