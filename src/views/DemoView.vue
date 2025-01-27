@@ -62,35 +62,35 @@ import { useFocusManager, FocusManagerKey } from "@/composables/useFocusManager"
 
 const hasChanges = ref(false);
 
-const [survey, updateSurvey, { patches, inversePatches, applyPatches }] =
-  useImmer<SurveyDefinition>({
-    pages: [
-      {
-        id: uuidv4(),
-        type: "custom",
-        header: "Welcome",
-        content: "Welcome to my little survey",
-      },
-      {
-        id: uuidv4(),
-        type: "question",
-        question: "How do you feel today?",
-        answer: createTextDefinition({
-          multiline: true,
-          placeholder: "Tell me",
-        }),
-      },
-      {
-        id: uuidv4(),
-        type: "question",
-        question: "Confirm your age",
-        answer: createCheckboxDefinition({
-          label: "I am over 18",
-          mustBeChecked: true,
-        }),
-      },
-    ],
-  });
+const initialState: SurveyDefinition = {
+  pages: [
+    {
+      id: uuidv4(),
+      type: "custom",
+      header: "Welcome",
+      content: "Welcome to my little survey",
+    },
+    {
+      id: uuidv4(),
+      type: "question",
+      question: "How do you feel today?",
+      answer: createTextDefinition({
+        multiline: true,
+        placeholder: "Tell me",
+      }),
+    },
+    {
+      id: uuidv4(),
+      type: "question",
+      question: "Confirm your age",
+      answer: createCheckboxDefinition({
+        label: "I am over 18",
+        mustBeChecked: true,
+      }),
+    },
+  ],
+};
+const [survey, updateSurvey, { patches, inversePatches, applyPatches }] = useImmer(initialState);
 
 // watchEffect(() => {
 //   console.log("Patches", JSON.stringify(patches.value, null, 2));
@@ -142,18 +142,14 @@ function addPage() {
 }
 
 function handleSave() {
-  hasChanges.value = false;
   // TODO: Implement save functionality
-  // Clear patches after saving
+  alert("Not implemented yet :)");
 }
 
 function handleCancel() {
-  hasChanges.value = false;
-
-  // Reset to original state by applying all inverse patches
-  // if (inversePatches.value.length) {
-  //   survey.value = applyPatches(survey.value, inversePatches.value);
-  // }
+  survey.value = initialState;
+  patches.value = [];
+  inversePatches.value = [];
 }
 
 // TODO: store updated in localstorage. Have reset button
