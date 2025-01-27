@@ -6,13 +6,13 @@
         :survey
         :updateSurvey
         :undo
-        class="p-3"
+        class="bg-slate-50 p-3"
       />
 
       <div class="sticky bottom-0 left-0 right-0">
         <!-- Toolbar -->
         <div
-          class="z-10 flex w-full justify-center gap-1 border-t-2 bg-gray-100 p-3 shadow-lg transition"
+          class="z-10 flex w-full justify-center gap-1 border-t border-t-gray-200 bg-slate-100 p-3 transition"
           :class="{ 'opacity-0': !hasChanges, 'opacity-100': hasChanges }"
         >
           <button
