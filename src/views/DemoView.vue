@@ -64,19 +64,19 @@ const hasChanges = ref(false);
 
 const initialState: SurveyDefinition = {
   pages: [
-    {
-      id: uuidv4(),
-      type: "custom",
-      header: "Welcome",
-      content: "Welcome to my little survey",
-    },
+    // {
+    //   id: uuidv4(),
+    //   type: "custom",
+    //   header: "Welcome",
+    //   content: "Welcome to my little survey",
+    // },
     {
       id: uuidv4(),
       type: "question",
-      question: "How do you feel today?",
+      question: "Which features do you use most frequently?",
       answer: createTextDefinition({
         multiline: true,
-        placeholder: "Tell me",
+        placeholder: "Enter your answer",
       }),
     },
     {

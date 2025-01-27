@@ -1,10 +1,21 @@
 <template>
   <!-- TODO: when focused, grow page dimenstions a little and use "focus-within:shadow-lg" -->
+  <!-- TODO: common page component with slot for content -->
   <div
     class="rounded-lg bg-white px-2 pb-4 pt-2 shadow"
     :id="`page-${page.id}`"
   >
-    <h1 class="mb-2 font-semibold">Question</h1>
+    <div class="mb-2 flex justify-between">
+      <h1 class="font-semibold">Question</h1>
+      <PageContextDropdownMenu>
+        <Button
+          variant="ghost"
+          size="icon"
+        >
+          <EllipsisVertical />
+        </Button>
+      </PageContextDropdownMenu>
+    </div>
 
     <form
       class="mb-2 space-y-4"
@@ -96,12 +107,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { EllipsisVertical } from "lucide-vue-next";
 import { answerFieldsByType } from "@/components/pages/answerTypeFields";
 import type { UpdateType } from "./types";
 import { FocusManagerKey } from "@/composables/useFocusManager";
 import { inject, onMounted, ref, watch } from "vue";
 import type { ForwardRefHTMLElement } from "@/components/ui/types";
-
+import PageContextDropdownMenu from "./PageContextDropdownMenu.vue";
 const { page } = defineProps<{ page: QuestionPageDefinition }>();
 const emit = defineEmits<{
   update: [Partial<QuestionPageDefinition>, UpdateType];
