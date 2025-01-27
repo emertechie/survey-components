@@ -123,7 +123,7 @@ function addPage() {
   const newId = uuidv4();
 
   // Make sure the first element in the page is focused
-  focusManager.focusPage(newId);
+  focusManager.focus(newId);
 
   updateSurvey((draft) => {
     draft.pages.push({

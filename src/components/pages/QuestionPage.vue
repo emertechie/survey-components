@@ -120,7 +120,7 @@ const focusManager = inject(FocusManagerKey);
 
 onMounted(() => {
   watch(
-    () => focusManager?.lastFocusedPageId,
+    () => focusManager?.lastFocusedId,
     (newId) => {
       if (newId?.value === page.id) {
         questionInput.value?.domRef?.focus();
