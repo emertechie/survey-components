@@ -57,7 +57,8 @@ import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
 import { useImmer } from "@/lib/useImmer";
 import { Plus } from "lucide-vue-next";
-import { computed, ref, watchEffect, nextTick } from "vue";
+import { ref, watchEffect, nextTick, provide } from "vue";
+import { useFocusManager, FocusManagerKey } from "@/composables/useFocusManager";
 
 const hasChanges = ref(false);
 
@@ -115,8 +116,15 @@ function undo() {
 //   TODO
 // }
 
+const focusManager = useFocusManager();
+provide(FocusManagerKey, focusManager);
+
 function addPage() {
   const newId = uuidv4();
+
+  // Make sure the first element in the page is focused
+  focusManager.focusPage(newId);
+
   updateSurvey((draft) => {
     draft.pages.push({
       id: newId,
@@ -126,7 +134,7 @@ function addPage() {
     });
   });
 
-  // Wait for DOM update then scroll
+  // Wait for DOM update then scroll and trigger focus
   nextTick(() => {
     const element = document.querySelector(`#page-${newId}`);
     element?.scrollIntoView({ behavior: "smooth" });

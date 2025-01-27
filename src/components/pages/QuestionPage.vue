@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: when focused, grow page dimenstions a little and use "focus-within:shadow-lg" -->
   <div
     class="rounded-lg bg-white px-2 pb-4 pt-2 shadow"
     :id="`page-${page.id}`"
@@ -22,6 +23,7 @@
               type="text"
               placeholder="Enter question"
               v-bind="componentField"
+              ref="questionInput"
             ></Textarea>
           </FormControl>
           <FormMessage />
@@ -96,6 +98,9 @@ import {
 } from "@/components/ui/select";
 import { answerFieldsByType } from "@/components/pages/answerTypeFields";
 import type { UpdateType } from "./types";
+import { FocusManagerKey } from "@/composables/useFocusManager";
+import { inject, onMounted, ref, watch } from "vue";
+import type { ForwardRefHTMLElement } from "@/components/ui/types";
 
 const { page } = defineProps<{ page: QuestionPageDefinition }>();
 const emit = defineEmits<{
@@ -107,6 +112,22 @@ const pageFormSchema = toTypedSchema(questionPageDefinitionSchema);
 const form = useForm({
   validationSchema: pageFormSchema,
   initialValues: page,
+});
+
+// Watch for focus requests for this page
+const questionInput = ref<ForwardRefHTMLElement | null>(null);
+const focusManager = inject(FocusManagerKey);
+
+onMounted(() => {
+  watch(
+    () => focusManager?.lastFocusedPageId,
+    (newId) => {
+      if (newId?.value === page.id) {
+        questionInput.value?.domRef?.focus();
+      }
+    },
+    { immediate: true },
+  );
 });
 
 function onUpdate(update: Partial<QuestionPageDefinition>, updateType: UpdateType = "merge") {
