@@ -1,12 +1,12 @@
 <template>
   <div class="fixed inset-0 flex">
     <!-- Left scrollable panel -->
-    <div class="relative h-full w-full overflow-y-auto border-r bg-slate-100 sm:w-96">
+    <div class="relative h-full w-full overflow-y-auto border-r bg-slate-50 sm:w-96">
       <DesignerView
         :survey
         :updateSurvey
         :undo
-        class="bg-slate-50 p-3"
+        class="p-3"
       />
 
       <div class="sticky bottom-0 left-0 right-0">
