@@ -59,7 +59,7 @@ import { useImmer } from "@/lib/useImmer";
 import { Plus } from "lucide-vue-next";
 import { ref, watchEffect, nextTick, provide, watch } from "vue";
 import { useFocusManager, FocusManagerKey } from "@/composables/useFocusManager";
-import { useScroll } from "@vueuse/core";
+import { useScrollIntoView } from "@/composables/useScrollIntoView";
 
 const hasChanges = ref(false);
 
@@ -121,11 +121,11 @@ const focusManager = useFocusManager();
 provide(FocusManagerKey, focusManager);
 
 function addPage() {
-  const newId = uuidv4();
+  const newPageId = uuidv4();
 
   updateSurvey((draft) => {
     draft.pages.push({
-      id: newId,
+      id: newPageId,
       type: "question",
       question: "New question",
       answer: createTextDefinition(),
@@ -134,24 +134,16 @@ function addPage() {
 
   // Wait for DOM update then scroll and trigger focus
   nextTick(() => {
-    const container = document.querySelector<HTMLElement>(".overflow-y-auto");
-    const element = document.querySelector<HTMLElement>(`#page-${newId}`);
+    const scrollContainer = document.querySelector<HTMLElement>(".overflow-y-auto");
+    const element = document.querySelector<HTMLElement>(`#page-${newPageId}`);
 
-    if (container && element) {
-      const { y: scrollY, isScrolling } = useScroll(container, { behavior: "smooth" });
-
-      // Calculate how far to scroll - get element position relative to container
-      const containerRect = container.getBoundingClientRect();
-      const elementRect = element.getBoundingClientRect();
-      const scrollTarget = elementRect.top - containerRect.top + container.scrollTop;
-
-      // Scroll to position
-      scrollY.value = scrollTarget;
+    if (scrollContainer && element) {
+      const { isScrolling } = useScrollIntoView(element, scrollContainer, { behavior: "smooth" });
 
       // Wait for smooth scroll to finish before focusing to prevent jumping straight down to new page
       const unwatch = watch(isScrolling, (isScrolling) => {
         if (!isScrolling) {
-          focusManager.focus(newId);
+          focusManager.focus(newPageId);
           unwatch();
         }
       });
