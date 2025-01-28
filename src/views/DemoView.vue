@@ -57,8 +57,9 @@ import DesignerView from "./DesignerView.vue";
 import PreviewView from "./PreviewView.vue";
 import { useImmer } from "@/lib/useImmer";
 import { Plus } from "lucide-vue-next";
-import { ref, watchEffect, nextTick, provide } from "vue";
+import { ref, watchEffect, nextTick, provide, watch } from "vue";
 import { useFocusManager, FocusManagerKey } from "@/composables/useFocusManager";
+import { useScroll } from "@vueuse/core";
 
 const hasChanges = ref(false);
 
@@ -122,9 +123,6 @@ provide(FocusManagerKey, focusManager);
 function addPage() {
   const newId = uuidv4();
 
-  // Make sure the first element in the page is focused
-  focusManager.focus(newId);
-
   updateSurvey((draft) => {
     draft.pages.push({
       id: newId,
@@ -136,8 +134,28 @@ function addPage() {
 
   // Wait for DOM update then scroll and trigger focus
   nextTick(() => {
-    const element = document.querySelector(`#page-${newId}`);
-    element?.scrollIntoView({ behavior: "smooth" });
+    const container = document.querySelector<HTMLElement>(".overflow-y-auto");
+    const element = document.querySelector<HTMLElement>(`#page-${newId}`);
+
+    if (container && element) {
+      const { y: scrollY, isScrolling } = useScroll(container, { behavior: "smooth" });
+
+      // Calculate how far to scroll - get element position relative to container
+      const containerRect = container.getBoundingClientRect();
+      const elementRect = element.getBoundingClientRect();
+      const scrollTarget = elementRect.top - containerRect.top + container.scrollTop;
+
+      // Scroll to position
+      scrollY.value = scrollTarget;
+
+      // Wait for smooth scroll to finish before focusing to prevent jumping straight down to new page
+      const unwatch = watch(isScrolling, (isScrolling) => {
+        if (!isScrolling) {
+          focusManager.focus(newId);
+          unwatch();
+        }
+      });
+    }
   });
 }
 
