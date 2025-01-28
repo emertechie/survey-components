@@ -6,7 +6,7 @@
         :survey
         :updateSurvey
         :undo
-        class="p-3"
+        class="pb-6 pt-3"
       />
 
       <div class="sticky bottom-0 left-0 right-0">

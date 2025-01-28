@@ -5,16 +5,35 @@
     class="rounded-lg bg-white px-2 pb-4 pt-2 shadow"
     :id="`page-${page.id}`"
   >
-    <div class="mb-2 flex justify-between">
-      <h1 class="font-semibold">Question</h1>
-      <PageContextDropdownMenu>
+    <div class="mb-2 flex items-center justify-between">
+      <h1 class="text-lg font-semibold">Question</h1>
+      <div class="flex items-center gap-2">
+        <!-- <ChevronUp class="size-4" />
+        <ChevronDown class="size-4" /> -->
+
+        <!-- <Button
+          variant="ghost"
+          size="icon"
+        >
+          <ChevronUp />
+        </Button>
+
         <Button
           variant="ghost"
           size="icon"
         >
-          <EllipsisVertical />
-        </Button>
-      </PageContextDropdownMenu>
+          <ChevronDown />
+        </Button> -->
+
+        <PageContextDropdownMenu>
+          <Button
+            variant="ghost"
+            size="icon"
+          >
+            <Settings2 />
+          </Button>
+        </PageContextDropdownMenu>
+      </div>
     </div>
 
     <form
@@ -108,7 +127,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { EllipsisVertical } from "lucide-vue-next";
+import {
+  EllipsisVertical,
+  ArrowUp,
+  ArrowDown,
+  Settings2,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-vue-next";
 import { answerFieldsByType } from "@/components/pages/answerTypeFields";
 import type { UpdateType } from "./types";
 import { FocusManagerKey } from "@/composables/useFocusManager";

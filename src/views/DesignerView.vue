@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1 class="mb-4 text-xl font-bold">Designer</h1>
+    <h1 class="mb-6 text-xl font-bold">Designer</h1>
 
-    <div class="space-y-4">
+    <div class="space-y-6">
       <div
         v-for="page of survey.pages"
         :key="page.id"
