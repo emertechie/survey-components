@@ -7,11 +7,8 @@
   >
     <div class="mb-2 flex items-center justify-between">
       <h1 class="text-lg font-semibold">Question</h1>
-      <div class="flex items-center gap-2">
-        <!-- <ChevronUp class="size-4" />
-        <ChevronDown class="size-4" /> -->
-
-        <!-- <Button
+      <div class="flex items-center">
+        <Button
           variant="ghost"
           size="icon"
         >
@@ -23,7 +20,7 @@
           size="icon"
         >
           <ChevronDown />
-        </Button> -->
+        </Button>
 
         <PageContextDropdownMenu>
           <Button

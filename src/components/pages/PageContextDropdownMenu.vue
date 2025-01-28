@@ -4,31 +4,11 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-vue-next";
+import { Trash2, Image, SquarePlay } from "lucide-vue-next";
 </script>
 
 <template>
@@ -37,84 +17,45 @@ import {
       <slot></slot>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-56">
-      <DropdownMenuLabel>My Account</DropdownMenuLabel>
-      <DropdownMenuSeparator />
-      <DropdownMenuGroup>
+      <!-- <DropdownMenuGroup>
         <DropdownMenuItem>
-          <User class="mr-2 h-4 w-4" />
-          <span>Profile</span>
-          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          <ChevronUp class="mr-2 h-4 w-4" />
+          <span>Move Up</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <CreditCard class="mr-2 h-4 w-4" />
-          <span>Billing</span>
-          <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Settings class="mr-2 h-4 w-4" />
-          <span>Settings</span>
-          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Keyboard class="mr-2 h-4 w-4" />
-          <span>Keyboard shortcuts</span>
-          <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+          <ChevronDown class="mr-2 h-4 w-4" />
+          <span>Move Down</span>
         </DropdownMenuItem>
       </DropdownMenuGroup>
+
+      <DropdownMenuSeparator /> -->
+
+      <DropdownMenuGroup>
+        <DropdownMenuCheckboxItem :checked="true"> Question </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem> Custom Page </DropdownMenuCheckboxItem>
+      </DropdownMenuGroup>
+
       <DropdownMenuSeparator />
+
       <DropdownMenuGroup>
         <DropdownMenuItem>
-          <Users class="mr-2 h-4 w-4" />
-          <span>Team</span>
+          <Image class="mr-2 h-4 w-4" />
+          <span>Add image</span>
         </DropdownMenuItem>
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
-            <UserPlus class="mr-2 h-4 w-4" />
-            <span>Invite users</span>
-          </DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent>
-              <DropdownMenuItem>
-                <Mail class="mr-2 h-4 w-4" />
-                <span>Email</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <MessageSquare class="mr-2 h-4 w-4" />
-                <span>Message</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <PlusCircle class="mr-2 h-4 w-4" />
-                <span>More...</span>
-              </DropdownMenuItem>
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub>
         <DropdownMenuItem>
-          <Plus class="mr-2 h-4 w-4" />
-          <span>New Team</span>
-          <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+          <SquarePlay class="mr-2 h-4 w-4" />
+          <span>Add video</span>
         </DropdownMenuItem>
       </DropdownMenuGroup>
+
       <DropdownMenuSeparator />
-      <DropdownMenuItem>
-        <Github class="mr-2 h-4 w-4" />
-        <span>GitHub</span>
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <LifeBuoy class="mr-2 h-4 w-4" />
-        <span>Support</span>
-      </DropdownMenuItem>
-      <DropdownMenuItem disabled>
-        <Cloud class="mr-2 h-4 w-4" />
-        <span>API</span>
-      </DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem>
-        <LogOut class="mr-2 h-4 w-4" />
-        <span>Log out</span>
-        <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-      </DropdownMenuItem>
+
+      <DropdownMenuGroup>
+        <DropdownMenuItem>
+          <Trash2 class="mr-2 h-4 w-4" />
+          <span>Delete</span>
+        </DropdownMenuItem>
+      </DropdownMenuGroup>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>
