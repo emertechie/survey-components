@@ -8,19 +8,41 @@
     <div class="mb-2 flex items-center justify-between">
       <h1 class="text-lg font-semibold">Question</h1>
       <div class="flex items-center">
-        <Button
-          variant="ghost"
-          size="icon"
-        >
-          <ChevronUp />
-        </Button>
+        <!-- TODO: disable when at the top -->
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger as-child>
+              <Button
+                variant="ghost"
+                size="icon"
+                @click="onMoveUp"
+              >
+                <ChevronUp />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Move up</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
-        <Button
-          variant="ghost"
-          size="icon"
-        >
-          <ChevronDown />
-        </Button>
+        <!-- TODO: disable when at the bottom -->
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger as-child>
+              <Button
+                variant="ghost"
+                size="icon"
+                @click="onMoveDown"
+              >
+                <ChevronDown />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Move down</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <PageContextDropdownMenu>
           <Button
@@ -124,23 +146,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import {
-  EllipsisVertical,
-  ArrowUp,
-  ArrowDown,
-  Settings2,
-  ChevronUp,
-  ChevronDown,
-} from "lucide-vue-next";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Settings2, ChevronUp, ChevronDown } from "lucide-vue-next";
 import { answerFieldsByType } from "@/components/pages/answerTypeFields";
 import type { UpdateType } from "./types";
 import { FocusManagerKey } from "@/composables/useFocusManager";
 import { inject, onMounted, ref, watch } from "vue";
 import type { ForwardRefHTMLElement } from "@/components/ui/types";
 import PageContextDropdownMenu from "./PageContextDropdownMenu.vue";
+
 const { page } = defineProps<{ page: QuestionPageDefinition }>();
 const emit = defineEmits<{
   update: [Partial<QuestionPageDefinition>, UpdateType];
+  moveUp: [];
+  moveDown: [];
 }>();
 
 const pageFormSchema = toTypedSchema(questionPageDefinitionSchema);
@@ -171,6 +190,14 @@ function onUpdate(update: Partial<QuestionPageDefinition>, updateType: UpdateTyp
   // Example: "placeholder" prop doesn't exist for a checkbox answer, so wouldn't get overridden with a merge
   const data = updateType === "assign" ? { ...page, ...update } : { id: page.id, ...update };
   emit("update", data, updateType);
+}
+
+function onMoveUp() {
+  emit("moveUp");
+}
+
+function onMoveDown() {
+  emit("moveDown");
 }
 
 const onSubmit = form.handleSubmit(() => {
