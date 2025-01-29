@@ -6,7 +6,7 @@ import type {
   SurveyDefinition,
 } from "@/data/definitions/survey";
 import { createTextDefinition } from "@/data/definitions/answerTypes";
-import { useImmer } from "@/lib/useImmer";
+import { useImmer } from "@/composables/useImmer";
 import { computed, type ComputedRef, type ShallowRef } from "vue";
 
 export type UpdateType = "merge" | "assign";
