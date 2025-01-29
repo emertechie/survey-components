@@ -64,12 +64,12 @@ const hasChanges = ref(false);
 
 const initialState: SurveyDefinition = {
   pages: [
-    // {
-    //   id: uuidv4(),
-    //   type: "custom",
-    //   header: "Welcome",
-    //   content: "Welcome to my little survey",
-    // },
+    {
+      id: uuidv4(),
+      type: "custom",
+      header: "Welcome",
+      content: "Welcome to my little survey",
+    },
     {
       id: uuidv4(),
       type: "question",

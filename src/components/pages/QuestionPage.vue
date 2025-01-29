@@ -1,126 +1,78 @@
 <template>
-  <!-- TODO: when focused, grow page dimenstions a little and use "focus-within:shadow-lg" -->
-  <!-- TODO: common page component with slot for content -->
-  <div
-    class="rounded-lg bg-white px-2 pb-4 pt-2 shadow"
-    :id="`page-${page.id}`"
+  <BasePage
+    :page="page"
+    :disable-move-up="disableMoveUp"
+    :disable-move-down="disableMoveDown"
+    @move-up="$emit('moveUp')"
+    @move-down="$emit('moveDown')"
+    @focus="onFocus"
   >
-    <div class="mb-2 flex items-center justify-between">
-      <h1 class="text-lg font-semibold">Question</h1>
-      <div class="flex items-center">
-        <!-- TODO: disable when at the top -->
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger as-child>
-              <Button
-                variant="ghost"
-                size="icon"
-                :disabled="disableMoveUp"
-                @click="onMoveUp"
-              >
-                <ChevronUp />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Move up</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-
-        <!-- TODO: disable when at the bottom -->
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger as-child>
-              <Button
-                variant="ghost"
-                size="icon"
-                :disabled="disableMoveDown"
-                @click="onMoveDown"
-              >
-                <ChevronDown />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Move down</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-
-        <PageContextDropdownMenu>
-          <Button
-            variant="ghost"
-            size="icon"
-          >
-            <Settings2 />
-          </Button>
-        </PageContextDropdownMenu>
-      </div>
-    </div>
-
-    <form
-      class="mb-2 space-y-4"
-      :validation-schema="pageFormSchema"
-      @submit="onSubmit"
-    >
-      <FormField
-        v-slot="{ componentField }"
-        name="question"
-        :model-value="page.question"
-        @update:model-value="(value) => onUpdate({ question: value })"
+    <template #default>
+      <form
+        class="mb-2 space-y-4"
+        :validation-schema="pageFormSchema"
+        @submit="onSubmit"
       >
-        <FormItem>
-          <FormControl>
-            <Textarea
-              type="text"
-              placeholder="Enter question"
-              v-bind="componentField"
-              ref="questionInput"
-            ></Textarea>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      </FormField>
+        <FormField
+          v-slot="{ componentField }"
+          name="question"
+          :model-value="page.question"
+          @update:model-value="(value) => onUpdate({ question: value })"
+        >
+          <FormItem>
+            <FormControl>
+              <Textarea
+                type="text"
+                placeholder="Enter question"
+                v-bind="componentField"
+                ref="questionInput"
+              ></Textarea>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
 
-      <FormField
-        v-slot="{ componentField }"
-        name="answer.type"
-        :model-value="page.answer?.type"
-        @update:model-value="
-          (value) => onUpdate({ answer: createDefaultDefinition(value) }, 'assign')
-        "
-      >
-        <FormItem>
-          <FormLabel>Answer Type</FormLabel>
-          <FormControl>
-            <Select v-bind="componentField">
-              <SelectTrigger aria-label="Answer Type">
-                <SelectValue placeholder="Select answer type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="text"> Text </SelectItem>
-                <SelectItem
-                  value="checkbox"
-                  aria-label="Checkbox"
-                >
-                  Checkbox
-                </SelectItem>
-                <SelectItem value="checkbox-list"> Checkbox List </SelectItem>
-                <SelectItem value="radio-list"> Radio List </SelectItem>
-              </SelectContent>
-            </Select>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      </FormField>
+        <FormField
+          v-slot="{ componentField }"
+          name="answer.type"
+          :model-value="page.answer?.type"
+          @update:model-value="
+            (value) => onUpdate({ answer: createDefaultDefinition(value) }, 'assign')
+          "
+        >
+          <FormItem>
+            <FormLabel>Answer Type</FormLabel>
+            <FormControl>
+              <Select v-bind="componentField">
+                <SelectTrigger aria-label="Answer Type">
+                  <SelectValue placeholder="Select answer type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="text"> Text </SelectItem>
+                  <SelectItem
+                    value="checkbox"
+                    aria-label="Checkbox"
+                  >
+                    Checkbox
+                  </SelectItem>
+                  <SelectItem value="checkbox-list"> Checkbox List </SelectItem>
+                  <SelectItem value="radio-list"> Radio List </SelectItem>
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
 
-      <component
-        v-if="page.answer?.type"
-        :is="answerFieldsByType[page.answer.type]"
-        :definition="page.answer"
-        @partial-update="(value: any) => onUpdate({ answer: { ...value } })"
-      />
-    </form>
-  </div>
+        <component
+          v-if="page.answer?.type"
+          :is="answerFieldsByType[page.answer.type]"
+          :definition="page.answer"
+          @partial-update="(value: any) => onUpdate({ answer: { ...value } })"
+        />
+      </form>
+    </template>
+  </BasePage>
 </template>
 
 <script setup lang="ts">
@@ -147,21 +99,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Settings2, ChevronUp, ChevronDown } from "lucide-vue-next";
 import { answerFieldsByType } from "@/components/pages/answerTypeFields";
 import type { UpdateType } from "./types";
-import { FocusManagerKey } from "@/composables/useFocusManager";
-import { inject, onMounted, ref, watch } from "vue";
+import BasePage from "./BasePage.vue";
+import { ref } from "vue";
 import type { ForwardRefHTMLElement } from "@/components/ui/types";
-import PageContextDropdownMenu from "./PageContextDropdownMenu.vue";
 
-const { page } = defineProps<{
+const { page, disableMoveUp, disableMoveDown } = defineProps<{
   page: QuestionPageDefinition;
   disableMoveUp: boolean;
   disableMoveDown: boolean;
 }>();
+
 const emit = defineEmits<{
   update: [Partial<QuestionPageDefinition>, UpdateType];
   moveUp: [];
@@ -169,26 +118,11 @@ const emit = defineEmits<{
 }>();
 
 const pageFormSchema = toTypedSchema(questionPageDefinitionSchema);
+const questionInput = ref<ForwardRefHTMLElement | null>(null);
 
 const form = useForm({
   validationSchema: pageFormSchema,
   initialValues: page,
-});
-
-// Watch for focus requests for this page
-const questionInput = ref<ForwardRefHTMLElement | null>(null);
-const focusManager = inject(FocusManagerKey);
-
-onMounted(() => {
-  watch(
-    () => focusManager?.lastFocusedId.value,
-    (newId) => {
-      if (newId === page.id) {
-        questionInput.value?.domRef?.focus();
-      }
-    },
-    { immediate: true },
-  );
 });
 
 function onUpdate(update: Partial<QuestionPageDefinition>, updateType: UpdateType = "merge") {
@@ -198,12 +132,8 @@ function onUpdate(update: Partial<QuestionPageDefinition>, updateType: UpdateTyp
   emit("update", data, updateType);
 }
 
-function onMoveUp() {
-  emit("moveUp");
-}
-
-function onMoveDown() {
-  emit("moveDown");
+function onFocus() {
+  questionInput.value?.domRef?.focus();
 }
 
 const onSubmit = form.handleSubmit(() => {
