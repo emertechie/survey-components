@@ -15,6 +15,7 @@
               <Button
                 variant="ghost"
                 size="icon"
+                :disabled="disableMoveUp"
                 @click="onMoveUp"
               >
                 <ChevronUp />
@@ -33,6 +34,7 @@
               <Button
                 variant="ghost"
                 size="icon"
+                :disabled="disableMoveDown"
                 @click="onMoveDown"
               >
                 <ChevronDown />
@@ -155,7 +157,11 @@ import { inject, onMounted, ref, watch } from "vue";
 import type { ForwardRefHTMLElement } from "@/components/ui/types";
 import PageContextDropdownMenu from "./PageContextDropdownMenu.vue";
 
-const { page } = defineProps<{ page: QuestionPageDefinition }>();
+const { page } = defineProps<{
+  page: QuestionPageDefinition;
+  disableMoveUp: boolean;
+  disableMoveDown: boolean;
+}>();
 const emit = defineEmits<{
   update: [Partial<QuestionPageDefinition>, UpdateType];
   moveUp: [];

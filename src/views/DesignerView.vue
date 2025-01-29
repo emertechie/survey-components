@@ -12,6 +12,8 @@
           <component
             :is="components[page.type]"
             :page
+            :disable-move-up="isFirstPage(page)"
+            :disable-move-down="isLastPage(page)"
             @update="onPageUpdate"
             @moveUp="onMovePageUp(page)"
             @moveDown="onMovePageDown(page)"
@@ -77,6 +79,14 @@ function onMovePageDown(page: PageDefinition) {
       draft.pages.splice(index + 1, 0, page);
     }
   });
+}
+
+function isFirstPage(page: PageDefinition): boolean {
+  return page.id === survey.pages[0].id;
+}
+
+function isLastPage(page: PageDefinition): boolean {
+  return page.id === survey.pages[survey.pages.length - 1].id;
 }
 </script>
 
