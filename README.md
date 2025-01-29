@@ -6,6 +6,8 @@ Features:
 
 * Survey page designer (WIP)
 * Preview of the rendered survey (TODO)
+* Uses Immer for immutable data structure and change tracking
+* Full undo / redo ability (Planned)
 
 [Demo](https://survey-components.pages.dev/demo)
 
