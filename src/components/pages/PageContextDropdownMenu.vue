@@ -22,11 +22,17 @@
       <DropdownMenuSeparator />
 
       <DropdownMenuGroup>
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          disabled
+          @click="addImage"
+        >
           <Image class="mr-2 h-4 w-4" />
           <span>Add image</span>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          disabled
+          @click="addVideo"
+        >
           <SquarePlay class="mr-2 h-4 w-4" />
           <span>Add video</span>
         </DropdownMenuItem>
@@ -75,5 +81,15 @@ function changePageType(pageType: PageDefinitionType) {
 
 function deletePage() {
   store?.deletePage(pageId);
+}
+
+function addImage() {
+  alert("Not implemented");
+  // store?.addImage(pageId);
+}
+
+function addVideo() {
+  alert("Not implemented");
+  // store?.addVideo(pageId);
 }
 </script>
