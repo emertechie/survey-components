@@ -19,19 +19,6 @@
         </div>
       </TransitionGroup>
     </div>
-
-    <!-- <div class="mt-4 flex gap-2">
-      <Button
-        v-if="undo"
-        @click="undo"
-        >Undo</Button
-      >
-      <Button
-        v-if="redo"
-        @click="redo"
-        >Redo</Button
-      >
-    </div> -->
   </div>
 </template>
 
@@ -45,14 +32,11 @@ import {
 } from "@/data/definitions/survey";
 import QuestionPage from "@/components/pages/QuestionPage.vue";
 import CustomPage from "@/components/pages/CustomPage.vue";
-import { Button } from "@/components/ui/button";
 import type { UpdateType } from "@/components/pages/types";
 
-const { survey, updateSurvey, undo, redo } = defineProps<{
+const { survey, updateSurvey } = defineProps<{
   survey: SurveyDefinition;
   updateSurvey: (updater: (draft: SurveyDefinition) => void) => void;
-  undo?: () => void;
-  redo?: () => void;
 }>();
 
 const components: Record<PageDefinitionType, Component> = {

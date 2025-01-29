@@ -5,7 +5,6 @@
       <DesignerView
         :survey
         :updateSurvey
-        :undo
         class="p-3 pb-6"
       />
 
@@ -106,12 +105,12 @@ watchEffect(() => {
 
 // const hasChanges = computed(() => patches.value.length > 0);
 
-function undo() {
-  const patch = inversePatches.value.pop();
-  if (patch) {
-    survey.value = applyPatches(survey.value, [patch]);
-  }
-}
+// function undo() {
+//   const patch = inversePatches.value.pop();
+//   if (patch) {
+//     survey.value = applyPatches(survey.value, [patch]);
+//   }
+// }
 
 // function redo() {
 //   TODO
