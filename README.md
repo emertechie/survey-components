@@ -4,18 +4,18 @@ WIP on a survey form builder. Uses Vue 3 Composition API.
 
 Features:
 
-* Survey page designer (WIP)
-* Preview of the rendered survey (TODO)
-* Uses Immer for immutable data structure and change tracking
-* Full undo / redo ability (Planned)
+- Survey page designer (WIP)
+- Preview of the rendered survey (TODO)
+- Uses Immer for immutable data structure and change tracking
+- Full undo / redo ability (Planned)
 
 [Demo](https://survey-components.pages.dev/demo)
 
-Many features still not implemented! And some parts of code need refactoring.
+Many features still not implemented, some parts of code need refactoring, and lots of missing tests! :see_no_evil: :see_no_evil:
 
-[Original Figma Prototype](https://www.figma.com/proto/m1GaHNxbNVBLruJckd0jfF/shadcn-%2F-ui-components---Updated-July-24'-(Community)?node-id=2066-4858&t=wWjEoLp5h6KdnWPf-0&scaling=scale-down&content-scaling=fixed&page-id=2053%3A1669&starting-point-node-id=2066%3A4858)
+[Original Figma Prototype](<https://www.figma.com/proto/m1GaHNxbNVBLruJckd0jfF/shadcn-%2F-ui-components---Updated-July-24'-(Community)?node-id=2066-4858&t=wWjEoLp5h6KdnWPf-0&scaling=scale-down&content-scaling=fixed&page-id=2053%3A1669&starting-point-node-id=2066%3A4858>)
 
-----
+---
 
 ## Project Setup
 

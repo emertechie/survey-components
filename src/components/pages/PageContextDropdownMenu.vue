@@ -35,7 +35,7 @@
       <DropdownMenuSeparator />
 
       <DropdownMenuGroup>
-        <DropdownMenuItem>
+        <DropdownMenuItem @click="deletePage">
           <Trash2 class="mr-2 h-4 w-4" />
           <span>Delete</span>
         </DropdownMenuItem>
@@ -71,5 +71,9 @@ if (!store) {
 
 function changePageType(pageType: PageDefinitionType) {
   store?.changePageType(pageId, pageType);
+}
+
+function deletePage() {
+  store?.deletePage(pageId);
 }
 </script>

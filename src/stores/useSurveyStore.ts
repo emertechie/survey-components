@@ -28,6 +28,7 @@ export interface SurveyStore {
   updatePage: (update: PartialWithId<PageDefinition>, updateType: UpdateType) => void;
   movePageUp: (pageId: string) => void;
   movePageDown: (pageId: string) => void;
+  deletePage: (pageId: string) => void;
 }
 
 export function useSurveyStore(initialState: SurveyDefinition): SurveyStore {
@@ -118,6 +119,12 @@ export function useSurveyStore(initialState: SurveyDefinition): SurveyStore {
     });
   }
 
+  function deletePage(pageId: string) {
+    updateSurvey((draftSurvey) => {
+      draftSurvey.pages = draftSurvey.pages.filter((page) => page.id !== pageId);
+    });
+  }
+
   return {
     survey,
     updateSurvey,
@@ -132,5 +139,6 @@ export function useSurveyStore(initialState: SurveyDefinition): SurveyStore {
     updatePage,
     movePageUp,
     movePageDown,
+    deletePage,
   };
 }
