@@ -2,112 +2,25 @@
   <div>
     <h1 class="mb-6 text-xl font-bold">Designer</h1>
 
-    <div class="space-y-6">
-      <TransitionGroup name="fade">
-        <!-- NOTE: dynamic <component> needs static parent div for animations to work -->
-        <div
-          v-for="page of survey.pages"
-          :key="page.id"
-        >
-          <component
-            :is="components[page.type]"
-            :page
-            :disable-move-up="isFirstPage(page)"
-            :disable-move-down="isLastPage(page)"
-            @update="onPageUpdate"
-            @moveUp="onMovePageUp(page)"
-            @moveDown="onMovePageDown(page)"
-          />
-        </div>
-      </TransitionGroup>
-    </div>
+    <PagesContainer
+      :pages="survey.pages"
+      :updatePages="updatePages"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { type Component } from "vue";
-import { merge } from "lodash-es";
-import {
-  type PageDefinitionType,
-  type SurveyDefinition,
-  type PageDefinition,
-} from "@/data/definitions/survey";
-import QuestionPage from "@/components/pages/QuestionPage.vue";
-import CustomPage from "@/components/pages/CustomPage.vue";
-import type { UpdateType } from "@/components/pages/types";
+import { type SurveyDefinition } from "@/data/definitions/survey";
+import PagesContainer from "@/components/pages/PagesContainer.vue";
 
 const { survey, updateSurvey } = defineProps<{
   survey: SurveyDefinition;
   updateSurvey: (updater: (draft: SurveyDefinition) => void) => void;
 }>();
 
-const components: Record<PageDefinitionType, Component> = {
-  question: QuestionPage,
-  custom: CustomPage,
-};
-
-type PartialWithId<T> = Partial<T> & { id: string };
-
-function onPageUpdate(update: PartialWithId<PageDefinition>, updateType: UpdateType) {
-  updateSurvey((draft) => {
-    const index = draft.pages.findIndex((existingPage) => existingPage.id === update.id);
-    if (index !== -1) {
-      if (updateType === "assign") {
-        Object.assign(draft.pages[index], update);
-      } else if (updateType === "merge") {
-        merge(draft.pages[index], update);
-      }
-    }
+function updatePages(pagesUpdater: (draftPages: SurveyDefinition["pages"]) => void) {
+  updateSurvey((draftSurvey) => {
+    pagesUpdater(draftSurvey.pages);
   });
-}
-
-function onMovePageUp(page: PageDefinition) {
-  updateSurvey((draft) => {
-    const index = draft.pages.findIndex((existingPage) => existingPage.id === page.id);
-    if (index > 0) {
-      const [page] = draft.pages.splice(index, 1);
-      draft.pages.splice(index - 1, 0, page);
-    }
-  });
-}
-
-function onMovePageDown(page: PageDefinition) {
-  updateSurvey((draft) => {
-    const index = draft.pages.findIndex((existingPage) => existingPage.id === page.id);
-    if (index < draft.pages.length - 1) {
-      const [page] = draft.pages.splice(index, 1);
-      draft.pages.splice(index + 1, 0, page);
-    }
-  });
-}
-
-function isFirstPage(page: PageDefinition): boolean {
-  return page.id === survey.pages[0].id;
-}
-
-function isLastPage(page: PageDefinition): boolean {
-  return page.id === survey.pages[survey.pages.length - 1].id;
 }
 </script>
-
-<style scoped>
-/* 1. declare transition */
-.fade-move,
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
-}
-
-/* 2. declare enter from and leave to state */
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: scaleY(0.01) translate(30px, 0);
-}
-
-/* 3. ensure leaving items are taken out of layout flow so that moving
-      animations can be calculated correctly. */
-.fade-leave-active {
-  position: absolute;
-}
-</style>
