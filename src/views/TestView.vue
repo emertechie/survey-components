@@ -1,22 +1,20 @@
 <template>
-  <div class="fixed inset-0 flex">
-    <!-- Left scrollable panel -->
-    <div class="h-full w-96 overflow-y-auto border-r bg-slate-100">
-      <SurveyDesigner
-        :survey
-        :updateSurvey
-        class="p-3"
-      />
-    </div>
+  <SurveyContextProvider
+    :store="surveyStore"
+    :focusManager="focusManager"
+  >
+    <div class="fixed inset-0 flex">
+      <!-- Left scrollable panel -->
+      <div class="h-full w-96 overflow-y-auto border-r bg-slate-100">
+        <SurveyDesigner class="p-3" />
+      </div>
 
-    <!-- Right fixed panel -->
-    <div class="flex-1 bg-slate-50">
-      <SurveyPreview
-        :survey
-        class="preview h-full p-3 pl-5"
-      />
+      <!-- Right fixed panel -->
+      <div class="flex-1 bg-slate-50">
+        <SurveyPreview class="preview h-full p-3 pl-5" />
+      </div>
     </div>
-  </div>
+  </SurveyContextProvider>
 </template>
 
 <script setup lang="ts">
@@ -24,9 +22,11 @@ import type { SurveyDefinition } from "@/data/definitions/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
 import SurveyDesigner from "./SurveyDesigner.vue";
 import SurveyPreview from "./SurveyPreview.vue";
-import { useImmer } from "@/lib/useImmer";
+import { useFocusManager } from "@/composables/useFocusManager";
+import { useSurveyStore } from "@/stores/useSurveyStore";
+import SurveyContextProvider from "@/components/SurveyContextProvider.vue";
 
-const [survey, updateSurvey] = useImmer<SurveyDefinition>({
+const initialState: SurveyDefinition = {
   pages: [
     {
       id: "start",
@@ -54,7 +54,11 @@ const [survey, updateSurvey] = useImmer<SurveyDefinition>({
       }),
     },
   ],
-});
+};
+
+const focusManager = useFocusManager();
+
+const surveyStore = useSurveyStore(initialState);
 </script>
 
 <style scoped>
