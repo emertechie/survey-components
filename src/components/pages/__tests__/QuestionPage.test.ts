@@ -19,7 +19,7 @@ test("can display a text question", async () => {
   };
 
   const wrapper = mount(QuestionPage, {
-    props: { page },
+    props: { page, disableMoveUp: false, disableMoveDown: false },
   });
 
   await wrapper.vm.$nextTick();
@@ -43,7 +43,7 @@ test("can display a checkbox question", async () => {
   };
 
   const wrapper = mount(QuestionPage, {
-    props: { page },
+    props: { page, disableMoveUp: false, disableMoveDown: false },
   });
 
   await wrapper.vm.$nextTick();

@@ -100,10 +100,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { answerFieldsByType } from "@/components/pages/answerTypeFields";
-import type { UpdateType } from "./types";
-import BasePage from "./BasePage.vue";
 import { ref } from "vue";
 import type { ForwardRefHTMLElement } from "@/components/ui/types";
+import type { UpdateType } from "@/stores/useSurveyStore";
+import BasePage from "./BasePage.vue";
 
 const { page, disableMoveUp, disableMoveDown } = defineProps<{
   page: QuestionPageDefinition;

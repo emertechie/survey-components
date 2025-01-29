@@ -64,8 +64,8 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { ForwardRefHTMLElement } from "@/components/ui/types";
+import type { UpdateType } from "@/stores/useSurveyStore";
 import BasePage from "./BasePage.vue";
-import type { UpdateType } from "./types";
 
 const { page, disableMoveUp, disableMoveDown } = defineProps<{
   page: CustomPageDefinition;
