@@ -61,12 +61,12 @@
 </template>
 
 <script setup lang="ts">
+import { Settings2, ChevronUp, ChevronDown } from "lucide-vue-next";
+import { computed, inject, onMounted, watch } from "vue";
 import { type PageDefinition } from "@/data/definitions/survey";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Settings2, ChevronUp, ChevronDown } from "lucide-vue-next";
-import { FocusManagerKey } from "@/composables/useFocusManager";
-import { computed, inject, onMounted, watch } from "vue";
+import { FocusManagerKey } from "@/components/SurveyContextProvider.vue";
 import PageContextDropdownMenu from "./PageContextDropdownMenu.vue";
 
 const { page } = defineProps<{

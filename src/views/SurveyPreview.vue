@@ -9,7 +9,13 @@
 </template>
 
 <script setup lang="ts">
-import { type SurveyDefinition } from "@/data/definitions/survey";
+import { SurveyStoreKey } from "@/components/SurveyContextProvider.vue";
+import { inject } from "vue";
 
-const { survey } = defineProps<{ survey: SurveyDefinition }>();
+const store = inject(SurveyStoreKey);
+if (!store) {
+  throw new Error("SurveyStore not found");
+}
+
+const survey = store.survey;
 </script>

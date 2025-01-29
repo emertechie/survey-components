@@ -3,17 +3,17 @@
     <TransitionGroup name="fade">
       <!-- NOTE: dynamic <component> needs static parent div for animations to work -->
       <div
-        v-for="page of pages"
+        v-for="page of store.survey.value.pages"
         :key="page.id"
       >
         <component
-          :is="components[page.type]"
+          :is="pageComponentsByType[page.type]"
           :page="page"
           :disable-move-up="isFirstPage(page)"
           :disable-move-down="isLastPage(page)"
           @update="onPageUpdate"
-          @moveUp="onMovePageUp(page)"
-          @moveDown="onMovePageDown(page)"
+          @moveUp="onMovePageUp(page.id)"
+          @moveDown="onMovePageDown(page.id)"
         />
       </div>
     </TransitionGroup>
@@ -21,62 +21,41 @@
 </template>
 
 <script setup lang="ts">
-import { type Component } from "vue";
-import { merge } from "lodash-es";
+import { inject, type Component } from "vue";
 import { type PageDefinitionType, type PageDefinition } from "@/data/definitions/survey";
 import QuestionPage from "@/components/pages/QuestionPage.vue";
 import CustomPage from "@/components/pages/CustomPage.vue";
-import type { UpdateType, PartialWithId } from "@/components/pages/types";
+import { SurveyStoreKey } from "@/components/SurveyContextProvider.vue";
+import { type PartialWithId, type UpdateType } from "@/stores/useSurveyStore";
 
-const props = defineProps<{
-  pages: PageDefinition[];
-  updatePages: (pagesUpdater: (draftPages: PageDefinition[]) => void) => void;
-}>();
+const store = inject(SurveyStoreKey);
+if (!store) {
+  throw new Error("SurveyStore not found");
+}
 
-const components: Record<PageDefinitionType, Component> = {
+const pageComponentsByType: Record<PageDefinitionType, Component> = {
   question: QuestionPage,
   custom: CustomPage,
 };
 
 function onPageUpdate(update: PartialWithId<PageDefinition>, updateType: UpdateType) {
-  props.updatePages((draftPages) => {
-    const index = draftPages.findIndex((existingPage) => existingPage.id === update.id);
-    if (index !== -1) {
-      if (updateType === "assign") {
-        Object.assign(draftPages[index], update);
-      } else if (updateType === "merge") {
-        merge(draftPages[index], update);
-      }
-    }
-  });
+  store?.updatePage(update, updateType);
 }
 
-function onMovePageUp(page: PageDefinition) {
-  props.updatePages((draftPages: PageDefinition[]) => {
-    const index = draftPages.findIndex((existingPage) => existingPage.id === page.id);
-    if (index > 0) {
-      const [page] = draftPages.splice(index, 1);
-      draftPages.splice(index - 1, 0, page);
-    }
-  });
+function onMovePageUp(pageId: string) {
+  store?.movePageUp(pageId);
 }
 
-function onMovePageDown(page: PageDefinition) {
-  props.updatePages((draftPages: PageDefinition[]) => {
-    const index = draftPages.findIndex((existingPage) => existingPage.id === page.id);
-    if (index < draftPages.length - 1) {
-      const [page] = draftPages.splice(index, 1);
-      draftPages.splice(index + 1, 0, page);
-    }
-  });
+function onMovePageDown(pageId: string) {
+  store?.movePageDown(pageId);
 }
 
 function isFirstPage(page: PageDefinition): boolean {
-  return page.id === props.pages[0].id;
+  return page.id === store?.survey.value.pages[0].id;
 }
 
 function isLastPage(page: PageDefinition): boolean {
-  return page.id === props.pages[props.pages.length - 1].id;
+  return page.id === store?.survey.value.pages[store?.survey.value.pages.length - 1].id;
 }
 </script>
 

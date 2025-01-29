@@ -1,50 +1,51 @@
 <template>
   <div class="fixed inset-0 flex">
-    <!-- Left scrollable panel -->
-    <div class="relative h-full w-full overflow-y-auto border-r bg-slate-50 sm:w-96">
-      <SurveyDesigner
-        :survey
-        :updateSurvey
-        class="p-3 pb-6"
-      />
+    <SurveyContextProvider
+      :store="surveyStore"
+      :focusManager="focusManager"
+    >
+      <!-- Left scrollable panel -->
+      <div class="relative h-full w-full overflow-y-auto border-r bg-slate-50 sm:w-96">
+        <SurveyDesigner class="p-3 pb-6" />
 
-      <div class="sticky bottom-0 left-0 right-0">
-        <!-- Toolbar -->
-        <div
-          class="z-10 flex w-full justify-center gap-1 border-t border-t-gray-200 bg-slate-100 p-3 transition"
-          :class="{ 'opacity-0': !hasChanges, 'opacity-100': hasChanges }"
-        >
-          <button
-            class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-            @click="handleSave"
+        <div class="sticky bottom-0 left-0 right-0">
+          <!-- Toolbar -->
+          <div
+            class="z-10 flex w-full justify-center gap-1 border-t border-t-gray-200 bg-slate-100 p-3 transition"
+            :class="{ 'opacity-0': !canUndo, 'opacity-100': canUndo }"
           >
-            Save
-          </button>
+            <button
+              class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+              @click="handleSave"
+            >
+              Save
+            </button>
+            <button
+              class="rounded px-4 py-2 text-gray-600 hover:bg-gray-100"
+              @click="cancelChanges"
+            >
+              Cancel
+            </button>
+          </div>
+
+          <!-- Plus button -->
           <button
-            class="rounded px-4 py-2 text-gray-600 hover:bg-gray-100"
-            @click="handleCancel"
+            class="absolute bottom-2 right-3 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
+            @click="addQuestionPage"
           >
-            Cancel
+            <Plus class="h-6 w-6" />
           </button>
         </div>
-
-        <!-- Plus button -->
-        <button
-          class="absolute bottom-2 right-3 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
-          @click="addPage"
-        >
-          <Plus class="h-6 w-6" />
-        </button>
       </div>
-    </div>
 
-    <!-- Right fixed panel -->
-    <div class="hidden flex-1 bg-slate-50 sm:block">
-      <SurveyPreview
-        :survey
-        class="preview h-full p-3 pl-5"
-      />
-    </div>
+      <!-- Right fixed panel -->
+      <div class="hidden flex-1 bg-slate-50 sm:block">
+        <SurveyPreview
+          :survey
+          class="preview h-full p-3 pl-5"
+        />
+      </div>
+    </SurveyContextProvider>
   </div>
 </template>
 
@@ -54,14 +55,12 @@ import type { SurveyDefinition } from "@/data/definitions/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
 import SurveyDesigner from "./SurveyDesigner.vue";
 import SurveyPreview from "./SurveyPreview.vue";
-import { useImmer } from "@/lib/useImmer";
 import { Plus } from "lucide-vue-next";
-import { ref, watchEffect, nextTick, provide, watch } from "vue";
-import { useFocusManager, FocusManagerKey } from "@/composables/useFocusManager";
-import { useSurveyActions, SurveyActionsKey, createNewPage } from "@/composables/useSurveyActions";
+import { nextTick, watch } from "vue";
+import { useFocusManager } from "@/composables/useFocusManager";
 import { useScrollIntoView } from "@/composables/useScrollIntoView";
-
-const hasChanges = ref(false);
+import { useSurveyStore } from "@/stores/useSurveyStore";
+import SurveyContextProvider from "@/components/SurveyContextProvider.vue";
 
 const initialState: SurveyDefinition = {
   pages: [
@@ -91,51 +90,20 @@ const initialState: SurveyDefinition = {
     },
   ],
 };
-const [survey, updateSurvey, { patches, inversePatches, applyPatches }] = useImmer(initialState);
-
-// watchEffect(() => {
-//   console.log("Patches", JSON.stringify(patches.value, null, 2));
-// });
-// watchEffect(() => {
-//   console.log("Inverse Patches", JSON.stringify(inversePatches.value, null, 2));
-// });
-
-watchEffect(() => {
-  hasChanges.value = patches.value.length > 0;
-});
-
-// const hasChanges = computed(() => patches.value.length > 0);
-
-// function undo() {
-//   const patch = inversePatches.value.pop();
-//   if (patch) {
-//     survey.value = applyPatches(survey.value, [patch]);
-//   }
-// }
-
-// function redo() {
-//   TODO
-// }
 
 const focusManager = useFocusManager();
-provide(FocusManagerKey, focusManager);
 
-const surveyActions = useSurveyActions(updateSurvey);
-provide(SurveyActionsKey, surveyActions);
+const surveyStore = useSurveyStore(initialState);
+const { survey, createNewPage, addPage, canUndo, cancelChanges } = surveyStore;
 
-function addPage() {
-  let newPageId: string;
-
-  updateSurvey((draft) => {
-    const newPage = createNewPage("question");
-    newPageId = newPage.id;
-    draft.pages.push(newPage);
-  });
+function addQuestionPage() {
+  const newPage = createNewPage("question");
+  addPage(newPage);
 
   // Wait for DOM update then scroll and trigger focus
   nextTick(() => {
     const scrollContainer = document.querySelector<HTMLElement>(".overflow-y-auto");
-    const element = document.querySelector<HTMLElement>(`#page-${newPageId}`);
+    const element = document.querySelector<HTMLElement>(`#page-${newPage.id}`);
 
     if (scrollContainer && element) {
       const { isScrolling } = useScrollIntoView(element, scrollContainer, { behavior: "smooth" });
@@ -143,7 +111,7 @@ function addPage() {
       // Wait for smooth scroll to finish before focusing to prevent jumping straight down to new page
       const unwatch = watch(isScrolling, (isScrolling) => {
         if (!isScrolling) {
-          focusManager.focus(newPageId);
+          focusManager.focus(newPage.id);
           unwatch();
         }
       });
@@ -154,12 +122,6 @@ function addPage() {
 function handleSave() {
   // TODO: Implement save functionality
   alert("Not implemented yet :)");
-}
-
-function handleCancel() {
-  survey.value = initialState;
-  patches.value = [];
-  inversePatches.value = [];
 }
 
 // TODO: store updated in localstorage. Have reset button

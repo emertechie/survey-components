@@ -57,16 +57,19 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import type { PageDefinitionType } from "@/data/definitions/survey";
-import { SurveyActionsKey } from "@/composables/useSurveyActions";
+import { SurveyStoreKey } from "@/components/SurveyContextProvider.vue";
 
 const { pageId, pageType } = defineProps<{
   pageId: string;
   pageType: PageDefinitionType;
 }>();
 
-const surveyActions = inject(SurveyActionsKey);
+const store = inject(SurveyStoreKey);
+if (!store) {
+  throw new Error("SurveyStore not found");
+}
 
 function changePageType(pageType: PageDefinitionType) {
-  surveyActions?.changePageType(pageId, pageType);
+  store?.changePageType(pageId, pageType);
 }
 </script>
