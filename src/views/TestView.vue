@@ -2,7 +2,7 @@
   <div class="fixed inset-0 flex">
     <!-- Left scrollable panel -->
     <div class="h-full w-96 overflow-y-auto border-r bg-slate-100">
-      <DesignerView
+      <SurveyDesigner
         :survey
         :updateSurvey
         class="p-3"
@@ -11,7 +11,7 @@
 
     <!-- Right fixed panel -->
     <div class="flex-1 bg-slate-50">
-      <PreviewView
+      <SurveyPreview
         :survey
         class="preview h-full p-3 pl-5"
       />
@@ -22,8 +22,8 @@
 <script setup lang="ts">
 import type { SurveyDefinition } from "@/data/definitions/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
-import DesignerView from "./DesignerView.vue";
-import PreviewView from "./PreviewView.vue";
+import SurveyDesigner from "./SurveyDesigner.vue";
+import SurveyPreview from "./SurveyPreview.vue";
 import { useImmer } from "@/lib/useImmer";
 
 const [survey, updateSurvey] = useImmer<SurveyDefinition>({

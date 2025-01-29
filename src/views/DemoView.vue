@@ -2,7 +2,7 @@
   <div class="fixed inset-0 flex">
     <!-- Left scrollable panel -->
     <div class="relative h-full w-full overflow-y-auto border-r bg-slate-50 sm:w-96">
-      <DesignerView
+      <SurveyDesigner
         :survey
         :updateSurvey
         class="p-3 pb-6"
@@ -40,7 +40,7 @@
 
     <!-- Right fixed panel -->
     <div class="hidden flex-1 bg-slate-50 sm:block">
-      <PreviewView
+      <SurveyPreview
         :survey
         class="preview h-full p-3 pl-5"
       />
@@ -52,8 +52,8 @@
 import { v4 as uuidv4 } from "uuid";
 import type { SurveyDefinition } from "@/data/definitions/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
-import DesignerView from "./DesignerView.vue";
-import PreviewView from "./PreviewView.vue";
+import SurveyDesigner from "./SurveyDesigner.vue";
+import SurveyPreview from "./SurveyPreview.vue";
 import { useImmer } from "@/lib/useImmer";
 import { Plus } from "lucide-vue-next";
 import { ref, watchEffect, nextTick, provide, watch } from "vue";
