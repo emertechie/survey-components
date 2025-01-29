@@ -130,7 +130,7 @@ export function useSurveyStore(initialState: SurveyDefinition): SurveyStore {
     updateSurvey,
     cancelChanges,
     canUndo,
-    // todo
+    // undo
     // canRedo
     // redo
     createNewPage,
