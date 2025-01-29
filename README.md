@@ -1,10 +1,19 @@
 # Overview
 
-WIP on a survey form builder. Features a survey page designer and a preview of the rendered survey (preview yet to be implemented).
+WIP on a survey form builder. Uses Vue 3 Composition API.
+
+Features:
+
+* Survey page designer (WIP)
+* Preview of the rendered survey (TODO)
 
 [Demo](https://survey-components.pages.dev/demo)
 
-Some features still not implemented and code needs some refactoring.
+Many features still not implemented! And some parts of code need refactoring.
+
+[Original Figma Prototype](https://www.figma.com/proto/m1GaHNxbNVBLruJckd0jfF/shadcn-%2F-ui-components---Updated-July-24'-(Community)?node-id=2066-4858&t=wWjEoLp5h6KdnWPf-0&scaling=scale-down&content-scaling=fixed&page-id=2053%3A1669&starting-point-node-id=2066%3A4858)
+
+----
 
 ## Project Setup
 
