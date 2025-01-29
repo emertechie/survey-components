@@ -58,6 +58,7 @@ import { useImmer } from "@/lib/useImmer";
 import { Plus } from "lucide-vue-next";
 import { ref, watchEffect, nextTick, provide, watch } from "vue";
 import { useFocusManager, FocusManagerKey } from "@/composables/useFocusManager";
+import { useSurveyActions, SurveyActionsKey, createNewPage } from "@/composables/useSurveyActions";
 import { useScrollIntoView } from "@/composables/useScrollIntoView";
 
 const hasChanges = ref(false);
@@ -119,16 +120,16 @@ watchEffect(() => {
 const focusManager = useFocusManager();
 provide(FocusManagerKey, focusManager);
 
+const surveyActions = useSurveyActions(updateSurvey);
+provide(SurveyActionsKey, surveyActions);
+
 function addPage() {
-  const newPageId = uuidv4();
+  let newPageId: string;
 
   updateSurvey((draft) => {
-    draft.pages.push({
-      id: newPageId,
-      type: "question",
-      question: "New question",
-      answer: createTextDefinition(),
-    });
+    const newPage = createNewPage("question");
+    newPageId = newPage.id;
+    draft.pages.push(newPage);
   });
 
   // Wait for DOM update then scroll and trigger focus

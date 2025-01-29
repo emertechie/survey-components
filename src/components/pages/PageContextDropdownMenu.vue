@@ -1,38 +1,22 @@
-<script setup lang="ts">
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuCheckboxItem,
-} from "@/components/ui/dropdown-menu";
-import { Trash2, Image, SquarePlay } from "lucide-vue-next";
-</script>
-
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
       <slot></slot>
     </DropdownMenuTrigger>
     <DropdownMenuContent class="w-56">
-      <!-- <DropdownMenuGroup>
-        <DropdownMenuItem>
-          <ChevronUp class="mr-2 h-4 w-4" />
-          <span>Move Up</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <ChevronDown class="mr-2 h-4 w-4" />
-          <span>Move Down</span>
-        </DropdownMenuItem>
-      </DropdownMenuGroup>
-
-      <DropdownMenuSeparator /> -->
-
       <DropdownMenuGroup>
-        <DropdownMenuCheckboxItem :checked="true"> Question </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem> Custom Page </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          :checked="pageType === 'question'"
+          @click="changePageType('question')"
+        >
+          Question
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          :checked="pageType === 'custom'"
+          @click="changePageType('custom')"
+        >
+          Custom Page
+        </DropdownMenuCheckboxItem>
       </DropdownMenuGroup>
 
       <DropdownMenuSeparator />
@@ -59,3 +43,30 @@ import { Trash2, Image, SquarePlay } from "lucide-vue-next";
     </DropdownMenuContent>
   </DropdownMenu>
 </template>
+
+<script setup lang="ts">
+import { inject } from "vue";
+import { Trash2, Image, SquarePlay } from "lucide-vue-next";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+} from "@/components/ui/dropdown-menu";
+import type { PageDefinitionType } from "@/data/definitions/survey";
+import { SurveyActionsKey } from "@/composables/useSurveyActions";
+
+const { pageId, pageType } = defineProps<{
+  pageId: string;
+  pageType: PageDefinitionType;
+}>();
+
+const surveyActions = inject(SurveyActionsKey);
+
+function changePageType(pageType: PageDefinitionType) {
+  surveyActions?.changePageType(pageId, pageType);
+}
+</script>

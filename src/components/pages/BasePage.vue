@@ -42,7 +42,10 @@
           </Tooltip>
         </TooltipProvider>
 
-        <PageContextDropdownMenu>
+        <PageContextDropdownMenu
+          :pageId="page.id"
+          :pageType="page.type"
+        >
           <Button
             variant="ghost"
             size="icon"
