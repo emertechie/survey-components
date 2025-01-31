@@ -11,17 +11,19 @@ const SurveyStoreKey = Symbol() as InjectionKey<SurveyStore>;
 const FocusManagerKey = Symbol() as InjectionKey<FocusManager>;
 
 export function useSurveyContext() {
-  const surveyStore = inject(SurveyStoreKey);
-  const focusManager = inject(FocusManagerKey);
-  if (!surveyStore) {
+  const store = inject(SurveyStoreKey);
+  if (!store) {
     throw new Error("SurveyStore not found");
   }
+
+  const focusManager = inject(FocusManagerKey);
   if (!focusManager) {
     throw new Error("FocusManager not found");
   }
+
   return {
-    store: surveyStore,
-    focusManager: focusManager,
+    store,
+    focusManager,
   };
 }
 </script>
