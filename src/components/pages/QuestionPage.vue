@@ -103,6 +103,7 @@ import { answerFieldsByType } from "@/components/pages/answerTypeFields";
 import { ref } from "vue";
 import type { ForwardRefHTMLElement } from "@/components/ui/types";
 import type { UpdateType } from "@/stores/useSurveyStore";
+import type { ValidationResult } from "@/lib/types";
 import BasePage from "./BasePage.vue";
 
 const { page, disableMoveUp, disableMoveDown } = defineProps<{
@@ -117,6 +118,10 @@ const emit = defineEmits<{
   moveDown: [];
 }>();
 
+defineExpose({
+  validate: validateForm,
+});
+
 const pageFormSchema = toTypedSchema(questionPageDefinitionSchema);
 const questionInput = ref<ForwardRefHTMLElement | null>(null);
 
@@ -124,6 +129,15 @@ const form = useForm({
   validationSchema: pageFormSchema,
   initialValues: page,
 });
+
+async function validateForm(): Promise<ValidationResult<QuestionPageDefinition>> {
+  const { valid, errors } = await form.validate();
+  if (valid) {
+    return { valid: true, values: form.values as QuestionPageDefinition };
+  }
+  // TODO: Fix TS error here - shouldn't need the cast to Record<string, string>
+  return { valid: false, errors: errors as Record<string, string> };
+}
 
 function onUpdate(update: Partial<QuestionPageDefinition>, updateType: UpdateType = "merge") {
   // For nested objects like "answer", we need to replace the entire page object to avoid stale state being left over.

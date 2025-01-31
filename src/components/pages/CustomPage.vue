@@ -66,6 +66,7 @@ import { Textarea } from "@/components/ui/textarea";
 import type { ForwardRefHTMLElement } from "@/components/ui/types";
 import type { UpdateType } from "@/stores/useSurveyStore";
 import BasePage from "./BasePage.vue";
+import type { ValidationResult } from "@/lib/types";
 
 const { page, disableMoveUp, disableMoveDown } = defineProps<{
   page: CustomPageDefinition;
@@ -79,6 +80,10 @@ const emit = defineEmits<{
   moveDown: [];
 }>();
 
+defineExpose({
+  validate: validateForm,
+});
+
 const pageFormSchema = toTypedSchema(customPageDefinitionSchema);
 const headerInput = ref<ForwardRefHTMLElement | null>(null);
 
@@ -86,6 +91,14 @@ const form = useForm({
   validationSchema: pageFormSchema,
   initialValues: page,
 });
+
+async function validateForm(): Promise<ValidationResult<CustomPageDefinition>> {
+  const { valid, errors } = await form.validate();
+  if (valid) {
+    return { valid: true, values: form.values as CustomPageDefinition };
+  }
+  return { valid: false, errors };
+}
 
 function onUpdate(update: Partial<CustomPageDefinition>) {
   emit("update", { id: page.id, ...update }, "merge");

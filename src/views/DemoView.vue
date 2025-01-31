@@ -6,7 +6,10 @@
     >
       <!-- Left scrollable panel -->
       <div class="relative h-full w-full overflow-y-auto border-r bg-slate-50 sm:w-96">
-        <SurveyDesigner class="p-3 pb-6" />
+        <SurveyDesigner
+          ref="surveyDesigner"
+          class="p-3 pb-6"
+        />
 
         <div class="sticky bottom-0 left-0 right-0">
           <!-- Toolbar -->
@@ -56,11 +59,13 @@ import { createCheckboxDefinition, createTextDefinition } from "@/data/definitio
 import SurveyDesigner from "./SurveyDesigner.vue";
 import SurveyPreview from "./SurveyPreview.vue";
 import { Plus } from "lucide-vue-next";
-import { nextTick, watch } from "vue";
+import { nextTick, useTemplateRef, watch } from "vue";
 import { useFocusManager } from "@/composables/useFocusManager";
 import { useScrollIntoView } from "@/composables/useScrollIntoView";
 import { useSurveyStore } from "@/stores/useSurveyStore";
 import SurveyContextProvider from "@/components/SurveyContextProvider.vue";
+
+const surveyDesigner = useTemplateRef<InstanceType<typeof SurveyDesigner>>("surveyDesigner");
 
 const initialState: SurveyDefinition = {
   pages: [
@@ -119,12 +124,13 @@ function addQuestionPage() {
   });
 }
 
-function handleSave() {
-  // TODO: Implement save functionality
-  alert("Not implemented yet :)");
+async function handleSave() {
+  if (surveyDesigner.value) {
+    await surveyDesigner.value.save();
+  } else {
+    throw new Error("SurveyDesigner component not found");
+  }
 }
-
-// TODO: store updated in localstorage. Have reset button
 </script>
 
 <style scoped>

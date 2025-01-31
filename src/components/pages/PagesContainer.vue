@@ -3,7 +3,7 @@
     <TransitionGroup name="fade">
       <!-- NOTE: dynamic <component> needs static parent div for animations to work -->
       <div
-        v-for="page of store.survey.value.pages"
+        v-for="(page, index) of store.survey.value.pages"
         :key="page.id"
       >
         <component
@@ -11,6 +11,11 @@
           :page="page"
           :disable-move-up="isFirstPage(page)"
           :disable-move-down="isLastPage(page)"
+          :ref="
+            (el: PageComponent) => {
+              pageRefs[index] = el;
+            }
+          "
           @update="onPageUpdate"
           @moveUp="onMovePageUp(page.id)"
           @moveDown="onMovePageDown(page.id)"
@@ -27,13 +32,22 @@ import QuestionPage from "@/components/pages/QuestionPage.vue";
 import CustomPage from "@/components/pages/CustomPage.vue";
 import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
 import { type PartialWithId, type UpdateType } from "@/stores/useSurveyStore";
+import type { ValidationResult } from "@/lib/types";
+
+defineExpose({
+  validateAllPages,
+});
 
 const { store } = useSurveyContext();
+
+type PageComponent = InstanceType<typeof CustomPage> | InstanceType<typeof QuestionPage>;
 
 const pageComponentsByType: Record<PageDefinitionType, Component> = {
   question: QuestionPage,
   custom: CustomPage,
 };
+
+const pageRefs = ref<PageComponent[]>([]);
 
 function onPageUpdate(update: PartialWithId<PageDefinition>, updateType: UpdateType) {
   store.updatePage(update, updateType);
@@ -53,6 +67,17 @@ function isFirstPage(page: PageDefinition): boolean {
 
 function isLastPage(page: PageDefinition): boolean {
   return page.id === store.survey.value.pages[store?.survey.value.pages.length - 1].id;
+}
+
+async function validateAllPages(): Promise<ValidationResult<PageDefinition>[]> {
+  return Promise.all(
+    pageRefs.value.map((pageComponent) => {
+      if (pageComponent.validate) {
+        return pageComponent.validate();
+      }
+      throw new Error("Page component does not have a validate method");
+    }),
+  );
 }
 </script>
 

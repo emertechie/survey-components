@@ -21,6 +21,7 @@ export interface SurveyStore {
   survey: ShallowRef<SurveyDefinition>;
   updateSurvey: (fn: (draft: SurveyDefinition) => void) => void;
   cancelChanges: () => void;
+  saveChanges: () => void;
   canUndo: ComputedRef<boolean>;
   createNewPage: (pageType: PageDefinitionType) => PageDefinition;
   addPage: (page: PageDefinition, options?: AddPageOptions) => void;
@@ -41,6 +42,10 @@ export function useSurveyStore(initialState: SurveyDefinition): SurveyStore {
     survey.value = initialState;
     patches.value = [];
     inversePatches.value = [];
+  }
+
+  function saveChanges() {
+    console.log("TODO: saveChanges");
   }
 
   function createNewPage(pageType: PageDefinitionType): PageDefinition {
@@ -129,6 +134,7 @@ export function useSurveyStore(initialState: SurveyDefinition): SurveyStore {
     survey,
     updateSurvey,
     cancelChanges,
+    saveChanges,
     canUndo,
     // undo
     // canRedo
