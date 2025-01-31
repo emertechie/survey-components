@@ -21,17 +21,14 @@
 </template>
 
 <script setup lang="ts">
-import { inject, type Component } from "vue";
+import { ref, type Component } from "vue";
 import { type PageDefinitionType, type PageDefinition } from "@/data/definitions/survey";
 import QuestionPage from "@/components/pages/QuestionPage.vue";
 import CustomPage from "@/components/pages/CustomPage.vue";
-import { SurveyStoreKey } from "@/components/SurveyContextProvider.vue";
+import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
 import { type PartialWithId, type UpdateType } from "@/stores/useSurveyStore";
 
-const store = inject(SurveyStoreKey);
-if (!store) {
-  throw new Error("SurveyStore not found");
-}
+const { store } = useSurveyContext();
 
 const pageComponentsByType: Record<PageDefinitionType, Component> = {
   question: QuestionPage,
@@ -39,23 +36,23 @@ const pageComponentsByType: Record<PageDefinitionType, Component> = {
 };
 
 function onPageUpdate(update: PartialWithId<PageDefinition>, updateType: UpdateType) {
-  store?.updatePage(update, updateType);
+  store.updatePage(update, updateType);
 }
 
 function onMovePageUp(pageId: string) {
-  store?.movePageUp(pageId);
+  store.movePageUp(pageId);
 }
 
 function onMovePageDown(pageId: string) {
-  store?.movePageDown(pageId);
+  store.movePageDown(pageId);
 }
 
 function isFirstPage(page: PageDefinition): boolean {
-  return page.id === store?.survey.value.pages[0].id;
+  return page.id === store.survey.value.pages[0].id;
 }
 
 function isLastPage(page: PageDefinition): boolean {
-  return page.id === store?.survey.value.pages[store?.survey.value.pages.length - 1].id;
+  return page.id === store.survey.value.pages[store?.survey.value.pages.length - 1].id;
 }
 </script>
 

@@ -51,7 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
 import { Trash2, Image, SquarePlay } from "lucide-vue-next";
 import {
   DropdownMenu,
@@ -63,33 +62,30 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import type { PageDefinitionType } from "@/data/definitions/survey";
-import { SurveyStoreKey } from "@/components/SurveyContextProvider.vue";
+import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
 
 const { pageId, pageType } = defineProps<{
   pageId: string;
   pageType: PageDefinitionType;
 }>();
 
-const store = inject(SurveyStoreKey);
-if (!store) {
-  throw new Error("SurveyStore not found");
-}
+const { store } = useSurveyContext();
 
 function changePageType(pageType: PageDefinitionType) {
-  store?.changePageType(pageId, pageType);
+  store.changePageType(pageId, pageType);
 }
 
 function deletePage() {
-  store?.deletePage(pageId);
+  store.deletePage(pageId);
 }
 
 function addImage() {
   alert("Not implemented");
-  // store?.addImage(pageId);
+  // store.addImage(pageId);
 }
 
 function addVideo() {
   alert("Not implemented");
-  // store?.addVideo(pageId);
+  // store.addVideo(pageId);
 }
 </script>

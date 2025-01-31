@@ -62,11 +62,11 @@
 
 <script setup lang="ts">
 import { Settings2, ChevronUp, ChevronDown } from "lucide-vue-next";
-import { computed, inject, onMounted, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 import { type PageDefinition } from "@/data/definitions/survey";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { FocusManagerKey } from "@/components/SurveyContextProvider.vue";
+import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
 import PageContextDropdownMenu from "./PageContextDropdownMenu.vue";
 
 const { page } = defineProps<{
@@ -93,12 +93,12 @@ const pageHeader = computed(() => {
   }
 });
 
-// Watch for focus requests for this page
-const focusManager = inject(FocusManagerKey);
+const { focusManager } = useSurveyContext();
 
+// Watch for focus requests for this page
 onMounted(() => {
   watch(
-    () => focusManager?.lastFocusedId.value,
+    () => focusManager.lastFocusedId.value,
     (newId) => {
       if (newId === page.id) {
         emit("focus");

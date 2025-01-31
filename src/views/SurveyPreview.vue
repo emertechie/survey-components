@@ -9,13 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { SurveyStoreKey } from "@/components/SurveyContextProvider.vue";
-import { inject } from "vue";
+import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
 
-const store = inject(SurveyStoreKey);
-if (!store) {
-  throw new Error("SurveyStore not found");
-}
-
+const { store } = useSurveyContext();
 const survey = store.survey;
 </script>
