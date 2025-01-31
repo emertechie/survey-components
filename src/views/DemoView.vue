@@ -15,7 +15,7 @@
           <!-- Toolbar -->
           <div
             class="z-10 flex w-full justify-center gap-1 border-t border-t-gray-200 bg-slate-100 p-3 transition"
-            :class="{ 'opacity-0': !canUndo, 'opacity-100': canUndo }"
+            :class="{ 'opacity-0': !hasChanges, 'opacity-100': hasChanges }"
           >
             <button
               class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
@@ -99,7 +99,7 @@ const initialState: SurveyDefinition = {
 const focusManager = useFocusManager();
 
 const surveyStore = useSurveyStore(initialState);
-const { survey, createNewPage, addPage, canUndo, cancelChanges } = surveyStore;
+const { survey, createNewPage, addPage, hasChanges, cancelChanges } = surveyStore;
 
 function addQuestionPage() {
   const newPage = createNewPage("question");

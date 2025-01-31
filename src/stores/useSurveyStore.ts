@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { merge } from "lodash-es";
+import { merge, isEqual } from "lodash-es";
 import type {
   PageDefinition,
   PageDefinitionType,
@@ -22,6 +22,7 @@ export interface SurveyStore {
   updateSurvey: (fn: (draft: SurveyDefinition) => void) => void;
   cancelChanges: () => void;
   saveChanges: () => void;
+  hasChanges: ComputedRef<boolean>;
   canUndo: ComputedRef<boolean>;
   createNewPage: (pageType: PageDefinitionType) => PageDefinition;
   addPage: (page: PageDefinition, options?: AddPageOptions) => void;
@@ -37,6 +38,7 @@ export function useSurveyStore(initialState: SurveyDefinition): SurveyStore {
     useImmer(initialState);
 
   const canUndo = computed(() => patches.value.length > 0);
+  const hasChanges = computed(() => !isEqual(survey.value, initialState));
 
   function cancelChanges() {
     survey.value = initialState;
@@ -135,6 +137,7 @@ export function useSurveyStore(initialState: SurveyDefinition): SurveyStore {
     updateSurvey,
     cancelChanges,
     saveChanges,
+    hasChanges,
     canUndo,
     // undo
     // canRedo
