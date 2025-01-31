@@ -32,6 +32,7 @@ export type PageDefinition = z.infer<typeof pageDefinitionSchema>;
 export type PageDefinitionType = PageDefinition["type"];
 
 export const surveyDefinitionSchema = z.object({
+  title: z.string(),
   pages: z.array(pageDefinitionSchema),
 });
 export type SurveyDefinition = z.infer<typeof surveyDefinitionSchema>;

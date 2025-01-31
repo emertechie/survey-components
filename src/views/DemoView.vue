@@ -68,6 +68,7 @@ import SurveyContextProvider from "@/components/SurveyContextProvider.vue";
 const surveyDesigner = useTemplateRef<InstanceType<typeof SurveyDesigner>>("surveyDesigner");
 
 const initialState: SurveyDefinition = {
+  title: "My Test Survey",
   pages: [
     {
       id: uuidv4(),
