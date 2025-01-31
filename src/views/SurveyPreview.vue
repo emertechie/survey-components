@@ -24,14 +24,22 @@
         </button>
       </div>
 
-      <div class="mb-4 min-h-[200px]">
+      <div class="mb-4 min-h-[200px] overflow-hidden">
         <template v-if="survey.pages && survey.pages.length > 0">
           <div class="mb-2 text-sm text-gray-500">
             Page {{ currentPageIndex + 1 }} of {{ survey.pages.length }}
           </div>
-          <div class="space-y-4 overflow-y-auto">
-            <pre class="font-mono text-xs">{{ survey.pages[currentPageIndex] }}</pre>
-          </div>
+          <Transition
+            :name="transitionName"
+            mode="out-in"
+          >
+            <div
+              :key="currentPageIndex"
+              class="space-y-4"
+            >
+              <pre class="font-mono text-xs">{{ survey.pages[currentPageIndex] }}</pre>
+            </div>
+          </Transition>
         </template>
         <div
           v-else
@@ -63,22 +71,58 @@
 
 <script setup lang="ts">
 import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const { store } = useSurveyContext();
 const survey = store.survey;
 
 const currentPageIndex = ref(0);
+const slideDirection = ref("next");
+
+const transitionName = computed(() => {
+  return `slide-${slideDirection.value}`;
+});
 
 const nextPage = () => {
   if (survey.value.pages && currentPageIndex.value < survey.value.pages.length - 1) {
+    slideDirection.value = "next";
     currentPageIndex.value++;
   }
 };
 
 const previousPage = () => {
   if (currentPageIndex.value > 0) {
+    slideDirection.value = "prev";
     currentPageIndex.value--;
   }
 };
 </script>
+
+<style scoped>
+.slide-next-enter-active,
+.slide-next-leave-active,
+.slide-prev-enter-active,
+.slide-prev-leave-active {
+  transition: all 0.1s ease-in-out;
+}
+
+.slide-next-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-next-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.slide-prev-enter-from {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.slide-prev-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+</style>
