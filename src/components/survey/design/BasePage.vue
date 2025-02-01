@@ -66,7 +66,7 @@ import { computed, onMounted, watch } from "vue";
 import { type PageDefinition } from "@/data/definitions/survey";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
+import { useSurveyContext } from "@/components/survey/design/SurveyContextProvider.vue";
 import PageContextDropdownMenu from "./PageContextDropdownMenu.vue";
 
 const { page } = defineProps<{

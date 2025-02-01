@@ -62,7 +62,7 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import type { PageDefinitionType } from "@/data/definitions/survey";
-import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
+import { useSurveyContext } from "@/components/survey/design/SurveyContextProvider.vue";
 
 const { pageId, pageType } = defineProps<{
   pageId: string;

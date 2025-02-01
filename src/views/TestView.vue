@@ -24,7 +24,7 @@ import SurveyDesigner from "./SurveyDesigner.vue";
 import SurveyPreview from "./SurveyPreview.vue";
 import { useFocusManager } from "@/composables/useFocusManager";
 import { useSurveyStore } from "@/stores/useSurveyStore";
-import SurveyContextProvider from "@/components/SurveyContextProvider.vue";
+import SurveyContextProvider from "@/components/survey/design/SurveyContextProvider.vue";
 
 const initialState: SurveyDefinition = {
   pages: [

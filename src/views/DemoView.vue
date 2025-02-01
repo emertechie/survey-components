@@ -63,7 +63,7 @@ import { nextTick, useTemplateRef, watch } from "vue";
 import { useFocusManager } from "@/composables/useFocusManager";
 import { useScrollIntoView } from "@/composables/useScrollIntoView";
 import { useSurveyStore } from "@/stores/useSurveyStore";
-import SurveyContextProvider from "@/components/SurveyContextProvider.vue";
+import SurveyContextProvider from "@/components/survey/design/SurveyContextProvider.vue";
 
 const surveyDesigner = useTemplateRef<InstanceType<typeof SurveyDesigner>>("surveyDesigner");
 

@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-import PagesContainer from "@/components/pages/PagesContainer.vue";
-import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
+import PagesContainer from "@/components/survey/design/PagesContainer.vue";
+import { useSurveyContext } from "@/components/survey/design/SurveyContextProvider.vue";
 import { useTemplateRef } from "vue";
 
 const pagesContainer = useTemplateRef<InstanceType<typeof PagesContainer>>("pagesContainer");

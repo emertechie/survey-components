@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
+import { useSurveyContext } from "@/components/survey/design/SurveyContextProvider.vue";
 import { ref, computed } from "vue";
 import { useResizeObserver } from "@vueuse/core";
 

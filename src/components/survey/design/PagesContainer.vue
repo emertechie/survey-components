@@ -28,9 +28,9 @@
 <script setup lang="ts">
 import { ref, type Component } from "vue";
 import { type PageDefinitionType, type PageDefinition } from "@/data/definitions/survey";
-import QuestionPage from "@/components/pages/QuestionPage.vue";
-import CustomPage from "@/components/pages/CustomPage.vue";
-import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
+import QuestionPage from "@/components/survey/design/QuestionPage.vue";
+import CustomPage from "@/components/survey/design/CustomPage.vue";
+import { useSurveyContext } from "@/components/survey/design/SurveyContextProvider.vue";
 import { type PartialWithId, type UpdateType } from "@/stores/useSurveyStore";
 import type { ValidationResult } from "@/lib/types";
 

@@ -99,7 +99,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { answerFieldsByType } from "@/components/pages/answerTypeFields";
+import { answerFieldsByType } from "@/components/survey/design/answerTypeFields";
 import { ref } from "vue";
 import type { ForwardRefHTMLElement } from "@/components/ui/types";
 import type { UpdateType } from "@/stores/useSurveyStore";
