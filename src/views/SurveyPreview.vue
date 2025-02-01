@@ -24,9 +24,15 @@
         </button>
       </div>
 
-      <div class="mb-4 min-h-[200px] overflow-hidden">
+      <div
+        class="page-wrapper mb-4 min-h-[200px] overflow-hidden"
+        :style="{ height: containerHeight + 'px' }"
+      >
         <template v-if="survey.pages && survey.pages.length > 0">
-          <div class="mb-2 text-sm text-gray-500">
+          <div
+            class="mb-2 text-sm text-gray-500"
+            ref="pageNumberEl"
+          >
             Page {{ currentPageIndex + 1 }} of {{ survey.pages.length }}
           </div>
           <Transition
@@ -35,6 +41,7 @@
           >
             <div
               :key="currentPageIndex"
+              ref="contentEl"
               class="space-y-4"
             >
               <pre class="font-mono text-xs">{{ survey.pages[currentPageIndex] }}</pre>
@@ -72,15 +79,27 @@
 <script setup lang="ts">
 import { useSurveyContext } from "@/components/SurveyContextProvider.vue";
 import { ref, computed } from "vue";
+import { useResizeObserver } from "@vueuse/core";
 
 const { store } = useSurveyContext();
 const survey = store.survey;
 
 const currentPageIndex = ref(0);
 const slideDirection = ref("next");
+const containerHeight = ref(0);
+const contentEl = ref<HTMLElement | null>(null);
+const pageNumberEl = ref<HTMLElement | null>(null);
 
 const transitionName = computed(() => {
   return `slide-${slideDirection.value}`;
+});
+
+useResizeObserver(contentEl, (entries) => {
+  const pageNumEl = pageNumberEl.value;
+  const pageNumElHeight = pageNumEl
+    ? pageNumEl.offsetHeight + parseInt(getComputedStyle(pageNumEl).marginBottom)
+    : 0;
+  containerHeight.value = entries[entries.length - 1].contentRect.height + pageNumElHeight + 8;
 });
 
 const nextPage = () => {
@@ -124,5 +143,9 @@ const previousPage = () => {
 .slide-prev-leave-to {
   transform: translateX(100%);
   opacity: 0;
+}
+
+.page-wrapper {
+  transition: height 0.1s ease-out;
 }
 </style>
