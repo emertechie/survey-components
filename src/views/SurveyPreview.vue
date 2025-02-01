@@ -24,53 +24,14 @@
         </button>
       </div>
 
+      <template v-if="survey.pages && survey.pages.length > 0">
+        <PagesContainer :pages="survey.pages" />
+      </template>
       <div
-        class="page-wrapper mb-4 min-h-[200px] overflow-hidden"
-        :style="{ height: containerHeight + 'px' }"
+        v-else
+        class="italic text-gray-500"
       >
-        <template v-if="survey.pages && survey.pages.length > 0">
-          <div
-            class="mb-2 text-sm text-gray-500"
-            ref="pageNumberEl"
-          >
-            Page {{ currentPageIndex + 1 }} of {{ survey.pages.length }}
-          </div>
-          <Transition
-            :name="transitionName"
-            mode="out-in"
-          >
-            <div
-              :key="currentPageIndex"
-              ref="contentEl"
-              class="space-y-4"
-            >
-              <pre class="font-mono text-xs">{{ survey.pages[currentPageIndex] }}</pre>
-            </div>
-          </Transition>
-        </template>
-        <div
-          v-else
-          class="italic text-gray-500"
-        >
-          No pages defined yet
-        </div>
-      </div>
-
-      <div class="flex justify-between">
-        <button
-          @click="previousPage"
-          :disabled="currentPageIndex === 0"
-          class="rounded bg-gray-100 px-3 py-1 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          Previous
-        </button>
-        <button
-          @click="nextPage"
-          :disabled="currentPageIndex === survey.pages?.length - 1"
-          class="rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          Next
-        </button>
+        No pages defined yet
       </div>
     </div>
   </div>
@@ -78,74 +39,7 @@
 
 <script setup lang="ts">
 import { useSurveyContext } from "@/components/survey/design/SurveyContextProvider.vue";
-import { ref, computed } from "vue";
-import { useResizeObserver } from "@vueuse/core";
-
+import PagesContainer from "@/components/survey/render/PagesContainer.vue";
 const { store } = useSurveyContext();
 const survey = store.survey;
-
-const currentPageIndex = ref(0);
-const slideDirection = ref("next");
-const containerHeight = ref(0);
-const contentEl = ref<HTMLElement | null>(null);
-const pageNumberEl = ref<HTMLElement | null>(null);
-
-const transitionName = computed(() => {
-  return `slide-${slideDirection.value}`;
-});
-
-useResizeObserver(contentEl, (entries) => {
-  const pageNumEl = pageNumberEl.value;
-  const pageNumElHeight = pageNumEl
-    ? pageNumEl.offsetHeight + parseInt(getComputedStyle(pageNumEl).marginBottom)
-    : 0;
-  containerHeight.value = entries[entries.length - 1].contentRect.height + pageNumElHeight + 8;
-});
-
-const nextPage = () => {
-  if (survey.value.pages && currentPageIndex.value < survey.value.pages.length - 1) {
-    slideDirection.value = "next";
-    currentPageIndex.value++;
-  }
-};
-
-const previousPage = () => {
-  if (currentPageIndex.value > 0) {
-    slideDirection.value = "prev";
-    currentPageIndex.value--;
-  }
-};
 </script>
-
-<style scoped>
-.slide-next-enter-active,
-.slide-next-leave-active,
-.slide-prev-enter-active,
-.slide-prev-leave-active {
-  transition: all 0.1s ease-in-out;
-}
-
-.slide-next-enter-from {
-  transform: translateX(100%);
-  opacity: 0;
-}
-
-.slide-next-leave-to {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-
-.slide-prev-enter-from {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-
-.slide-prev-leave-to {
-  transform: translateX(100%);
-  opacity: 0;
-}
-
-.page-wrapper {
-  transition: height 0.1s ease-out;
-}
-</style>
