@@ -17,7 +17,9 @@
           v-slot="{ componentField }"
           name="question"
           :model-value="page.question"
-          @update:model-value="(value) => onUpdate({ question: value })"
+          @update:model-value="
+            (value) => onUpdate({ question: value, fieldName: toFieldName(value) })
+          "
         >
           <FormItem>
             <FormControl>
@@ -78,6 +80,7 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
+import { camelCase } from "lodash-es";
 import {
   questionPageDefinitionSchema,
   type QuestionPageDefinition,
@@ -137,6 +140,10 @@ async function validateForm(): Promise<ValidationResult<QuestionPageDefinition>>
   }
   // TODO: Fix TS error here - shouldn't need the cast to Record<string, string>
   return { valid: false, errors: errors as Record<string, string> };
+}
+
+function toFieldName(question: string): string {
+  return camelCase(question);
 }
 
 function onUpdate(update: Partial<QuestionPageDefinition>, updateType: UpdateType = "merge") {

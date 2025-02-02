@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h1 v-if="page.header">{{ page.header }}</h1>
-    <pre>{{ page.content }}</pre>
+  <div class="space-y-2">
+    <h3 class="text-lg font-medium">{{ pageDefinition.header }}</h3>
+    <div>{{ pageDefinition.content }}</div>
   </div>
 </template>
 
@@ -9,6 +9,6 @@
 import type { CustomPageDefinition } from "@/data/definitions/survey";
 
 defineProps<{
-  page: CustomPageDefinition;
+  pageDefinition: CustomPageDefinition;
 }>();
 </script>

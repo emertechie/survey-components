@@ -4,7 +4,7 @@
       class="mb-2 text-sm text-gray-500"
       ref="pageNumberEl"
     >
-      Page {{ currentPageIndex + 1 }} of {{ pages.length }}
+      Page {{ currentPageIndex + 1 }} of {{ pageDefinitions.length }}
     </div>
 
     <div
@@ -21,8 +21,8 @@
           class="space-y-4"
         >
           <component
-            :is="pageComponentsByType[pages[currentPageIndex].type]"
-            :page="pages[currentPageIndex]"
+            :is="pageComponentsByType[pageDefinitions[currentPageIndex].type]"
+            :page-definition="pageDefinitions[currentPageIndex]"
           />
         </div>
       </Transition>
@@ -38,7 +38,7 @@
       </button>
       <button
         @click="nextPage"
-        :disabled="currentPageIndex === pages.length - 1"
+        :disabled="currentPageIndex === pageDefinitions.length - 1"
         class="rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
       >
         Next
@@ -57,7 +57,7 @@ import { ref, computed } from "vue";
 import { useResizeObserver } from "@vueuse/core";
 
 const props = defineProps<{
-  pages: PageDefinition[];
+  pageDefinitions: PageDefinition[];
 }>();
 
 const pageComponentsByType: Record<PageDefinitionType, Component> = {
@@ -84,7 +84,7 @@ useResizeObserver(contentEl, (entries) => {
 });
 
 const nextPage = () => {
-  if (currentPageIndex.value < props.pages.length - 1) {
+  if (currentPageIndex.value < props.pageDefinitions.length - 1) {
     slideDirection.value = "next";
     currentPageIndex.value++;
   }

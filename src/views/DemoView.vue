@@ -80,6 +80,7 @@ const initialState: SurveyDefinition = {
       id: uuidv4(),
       type: "question",
       question: "Which features do you use most frequently?",
+      fieldName: "features",
       answer: createTextDefinition({
         multiline: true,
         placeholder: "Enter your answer",
@@ -89,6 +90,7 @@ const initialState: SurveyDefinition = {
       id: uuidv4(),
       type: "question",
       question: "Confirm your age",
+      fieldName: "age",
       answer: createCheckboxDefinition({
         label: "I am over 18",
         mustBeChecked: true,

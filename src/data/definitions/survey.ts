@@ -13,6 +13,7 @@ const basePageSchema = z.object({
 export const questionPageDefinitionSchema = basePageSchema.extend({
   type: z.literal("question"),
   question: z.string().min(1),
+  fieldName: z.string().min(1),
   answer: answerDefinitionSchema,
 });
 export type QuestionPageDefinition = z.infer<typeof questionPageDefinitionSchema>;
