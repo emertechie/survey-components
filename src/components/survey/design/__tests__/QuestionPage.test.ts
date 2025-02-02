@@ -9,6 +9,7 @@ test("can display a text question", async () => {
     id: "1",
     type: "question",
     question: "What is your name?",
+    fieldName: "name",
     answer: createTextDefinition({
       multiline: true,
       required: true,
@@ -36,6 +37,7 @@ test("can display a checkbox question", async () => {
     id: "1",
     type: "question",
     question: "Confirm age",
+    fieldName: "age",
     answer: createCheckboxDefinition({
       label: "I am over 18",
       mustBeChecked: true,

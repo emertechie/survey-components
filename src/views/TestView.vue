@@ -27,6 +27,7 @@ import { useSurveyStore } from "@/stores/useSurveyStore";
 import SurveyContextProvider from "@/components/survey/design/SurveyContextProvider.vue";
 
 const initialState: SurveyDefinition = {
+  title: "Test Survey",
   pages: [
     {
       id: "start",
@@ -38,6 +39,7 @@ const initialState: SurveyDefinition = {
       id: "features-question",
       type: "question",
       question: "Which features do you use most frequently?",
+      fieldName: "features",
       answer: createTextDefinition({
         multiline: true,
         placeholder: "Enter your answer",
@@ -48,6 +50,7 @@ const initialState: SurveyDefinition = {
       id: "recommend-question",
       type: "question",
       question: "Would you recommend our app to others?",
+      fieldName: "recommend",
       answer: createCheckboxDefinition({
         mustBeChecked: true,
         label: "Yes",

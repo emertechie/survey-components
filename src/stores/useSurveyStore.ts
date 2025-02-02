@@ -58,6 +58,7 @@ export function useSurveyStore(initialState: SurveyDefinition): SurveyStore {
           id: newPageId,
           type: "question",
           question: "New question",
+          fieldName: "newQuestion",
           answer: createTextDefinition(),
         };
       case "custom":
