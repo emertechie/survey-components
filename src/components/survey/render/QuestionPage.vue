@@ -23,7 +23,7 @@ import { type QuestionPageDefinition } from "@/data/definitions/survey";
 
 // TODO: use defineModel
 
-const props = defineProps<{
+defineProps<{
   pageDefinition: QuestionPageDefinition;
   modelValue?: unknown;
 }>();
