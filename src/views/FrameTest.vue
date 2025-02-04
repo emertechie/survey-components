@@ -24,32 +24,44 @@
           </div>
 
           <!-- Fixed Bottom Toolbar -->
-          <div class="flex h-14 items-center justify-between border-t border-gray-300 bg-gray-200">
-            <!-- Undo button -->
-            <button
-              class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-300 text-white shadow-md transition-colors hover:bg-gray-400"
+          <div
+            class="flex h-14 items-center justify-center border-t border-gray-300 bg-gray-200 px-2"
+          >
+            <!-- <Button
+              variant="ghost"
+              size="icon"
+              disabled="!canUndo"
             >
-              <Undo class="h-6 w-6" />
-            </button>
+              <Undo />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled="!canUndo"
+            >
+              <Redo />
+            </Button> -->
 
-            <div>
-              <button
-                class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            <div class="flex gap-2">
+              <Button
+                :disabled="!hasChanges"
                 @click="handleSave"
               >
                 Save
-              </button>
-              <button
-                class="rounded px-4 py-2 text-gray-600 hover:bg-gray-100"
+              </Button>
+
+              <Button
+                variant="secondary"
+                :disabled="!hasChanges"
                 @click="cancelChanges"
               >
                 Cancel
-              </button>
+              </Button>
             </div>
 
             <!-- Plus button -->
             <button
-              class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
+              class="absolute right-2 flex h-11 w-11 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
               @click="addQuestionPage"
             >
               <Plus class="h-6 w-6" />
@@ -73,12 +85,13 @@
 </template>
 
 <script setup lang="ts">
+import { Button } from "@/components/ui/button";
 import { v4 as uuidv4 } from "uuid";
 import type { SurveyDefinition } from "@/data/definitions/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
 import SurveyDesigner from "./SurveyDesigner.vue";
 import SurveyPreview from "./SurveyPreview.vue";
-import { Plus, Undo } from "lucide-vue-next";
+import { Plus, Undo, Redo } from "lucide-vue-next";
 import { nextTick, useTemplateRef, watch } from "vue";
 import { useFocusManager } from "@/composables/useFocusManager";
 import { useScrollIntoView } from "@/composables/useScrollIntoView";

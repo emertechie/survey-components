@@ -29,6 +29,7 @@
     </div>
 
     <div class="flex justify-between">
+      <!-- TODO: use proper button component with icons -->
       <button
         @click="previousPage"
         :disabled="currentPageIndex === 0"
