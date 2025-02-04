@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex h-16 items-center px-3">
+  <nav class="flex h-16 items-center border-b px-3">
     <h1 class="mr-16 text-xl font-bold">Swift Survey</h1>
     <MainNav class="mr-auto" />
     <UserNav />
