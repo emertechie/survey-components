@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded-lg bg-white px-2 pb-4 pt-1 shadow"
+    class="rounded-lg border bg-white p-3 pb-2 pt-1 shadow"
     :id="`page-${page.id}`"
   >
     <div class="mb-2 flex items-center justify-between">
