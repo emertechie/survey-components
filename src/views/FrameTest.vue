@@ -13,7 +13,7 @@
       >
         <!-- Sidebar -->
         <aside
-          class="flex h-[calc(100vh-4rem)] flex-1 flex-col bg-gray-100 sm:w-80 sm:flex-none md:w-96"
+          class="sticky top-0 flex h-[calc(100vh-4rem)] flex-1 flex-col overflow-hidden bg-gray-100 sm:w-80 sm:flex-none md:w-96"
         >
           <!-- Scrollable Sidebar Content -->
           <div class="flex-1 overflow-y-auto">
