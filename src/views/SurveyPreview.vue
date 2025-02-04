@@ -2,7 +2,9 @@
   <div class="relative">
     <h1 class="mb-4 text-xl font-bold">Preview</h1>
 
-    <div class="absolute bottom-5 left-5 w-96 rounded-lg border border-gray-200 bg-white shadow-xl">
+    <div
+      class="absolute bottom-5 left-5 w-72 rounded-lg border border-gray-200 bg-white shadow-xl sm:w-80 lg:w-96"
+    >
       <div class="rounded bg-amber-100/50 p-2 text-sm text-gray-500">Ugly WIP prototype!</div>
 
       <div class="p-4">
