@@ -24,8 +24,29 @@
           </div>
 
           <!-- Fixed Bottom Toolbar -->
-          <div class="flex h-12 items-center justify-center border-t border-gray-300 bg-gray-200">
-            Sidebar Toolbar
+          <div class="flex h-14 items-center justify-between border-t border-gray-300 bg-gray-200">
+            <!-- Undo button -->
+            <button
+              class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-300 text-white shadow-md transition-colors hover:bg-gray-400"
+              @click="addQuestionPage"
+            >
+              <Undo class="h-6 w-6" />
+            </button>
+
+            <div>
+              <button
+                class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                @click="handleSave"
+              >
+                Save
+              </button>
+              <button
+                class="rounded px-4 py-2 text-gray-600 hover:bg-gray-100"
+                @click="cancelChanges"
+              >
+                Cancel
+              </button>
+            </div>
 
             <!-- Plus button -->
             <button
@@ -58,7 +79,7 @@ import type { SurveyDefinition } from "@/data/definitions/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
 import SurveyDesigner from "./SurveyDesigner.vue";
 import SurveyPreview from "./SurveyPreview.vue";
-import { Plus } from "lucide-vue-next";
+import { Plus, Undo } from "lucide-vue-next";
 import { nextTick, useTemplateRef, watch } from "vue";
 import { useFocusManager } from "@/composables/useFocusManager";
 import { useScrollIntoView } from "@/composables/useScrollIntoView";
