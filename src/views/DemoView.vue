@@ -1,58 +1,77 @@
 <template>
-  <div class="fixed inset-0 flex">
-    <SurveyContextProvider
-      :store="surveyStore"
-      :focusManager="focusManager"
-    >
-      <!-- Left scrollable panel -->
-      <div class="relative h-full w-full overflow-y-auto border-r bg-slate-50 sm:w-96">
-        <SurveyDesigner
-          ref="surveyDesigner"
-          class="p-3 pb-6"
-        />
+  <div class="flex min-h-screen flex-col">
+    <!-- Top Navigation Bar -->
+    <nav class="flex h-16 items-center bg-blue-600 px-6 text-white">
+      <h1 class="text-xl font-bold">App Navigation</h1>
+    </nav>
 
-        <div class="sticky bottom-0 left-0 right-0">
-          <!-- Toolbar -->
+    <!-- Main Container -->
+    <div class="flex flex-1">
+      <SurveyContextProvider
+        :store="surveyStore"
+        :focusManager="focusManager"
+      >
+        <!-- Sidebar -->
+        <aside
+          class="sticky top-0 flex h-[calc(100vh-4rem)] flex-1 flex-col overflow-hidden bg-gray-100 sm:w-80 sm:flex-none md:w-96"
+        >
+          <!-- Scrollable Sidebar Content -->
+          <div class="flex-1 overflow-y-auto pb-12">
+            <SurveyDesigner
+              ref="surveyDesigner"
+              class="p-3 pb-6"
+            />
+          </div>
+
+          <!-- Save / Cancel Toolbar -->
           <div
-            class="z-10 flex w-full justify-center gap-1 border-t border-t-gray-200 bg-slate-100 p-3 transition"
+            class="absolute bottom-0 left-0 right-0 flex h-14 items-center justify-center border-t border-gray-300 bg-gray-200 px-2 transition"
             :class="{ 'opacity-0': !hasChanges, 'opacity-100': hasChanges }"
           >
-            <button
-              class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-              @click="handleSave"
-            >
-              Save
-            </button>
-            <button
-              class="rounded px-4 py-2 text-gray-600 hover:bg-gray-100"
-              @click="cancelChanges"
-            >
-              Cancel
-            </button>
+            <div class="flex gap-2">
+              <Button
+                :disabled="!hasChanges"
+                @click="handleSave"
+              >
+                Save
+              </Button>
+
+              <Button
+                variant="secondary"
+                :disabled="!hasChanges"
+                @click="cancelChanges"
+              >
+                Cancel
+              </Button>
+            </div>
           </div>
 
           <!-- Plus button -->
           <button
-            class="absolute bottom-2 right-3 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
+            class="absolute bottom-[0.36rem] right-2 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
             @click="addQuestionPage"
           >
             <Plus class="h-6 w-6" />
           </button>
-        </div>
-      </div>
+        </aside>
 
-      <!-- Right fixed panel -->
-      <div class="hidden flex-1 bg-slate-50 sm:block">
-        <SurveyPreview
-          :survey
-          class="preview h-full p-3 pl-5"
-        />
-      </div>
-    </SurveyContextProvider>
+        <!-- Main Content Area -->
+        <main class="hidden flex-1 sm:block">
+          <!-- <h2 class="mb-4 text-2xl font-bold">Main Content Area</h2>
+        <div class="rounded bg-gray-50 p-4">Content goes here...</div> -->
+
+          <SurveyPreview
+            :survey
+            class="preview h-full p-3 pl-5"
+          />
+        </main>
+      </SurveyContextProvider>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Button } from "@/components/ui/button";
 import { v4 as uuidv4 } from "uuid";
 import type { SurveyDefinition } from "@/data/definitions/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
