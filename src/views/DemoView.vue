@@ -43,7 +43,7 @@
 
           <!-- Plus button -->
           <button
-            class="absolute bottom-[0.36rem] right-2 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
+            class="absolute bottom-[0.36rem] right-3 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
             @click="addQuestionPage"
           >
             <Plus class="h-6 w-6" />
