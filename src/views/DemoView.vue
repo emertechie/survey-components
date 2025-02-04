@@ -1,9 +1,7 @@
 <template>
   <div class="flex min-h-screen flex-col">
     <!-- Top Navigation Bar -->
-    <nav class="flex h-16 items-center px-3">
-      <h1 class="text-xl font-bold">Swift Survey</h1>
-    </nav>
+    <TopNav />
 
     <!-- Main Container -->
     <div class="flex flex-1">
@@ -77,7 +75,7 @@ import { useFocusManager } from "@/composables/useFocusManager";
 import { useScrollIntoView } from "@/composables/useScrollIntoView";
 import { useSurveyStore } from "@/stores/useSurveyStore";
 import SurveyContextProvider from "@/components/survey/design/SurveyContextProvider.vue";
-
+import TopNav from "@/components/nav/TopNav.vue";
 const surveyDesigner = useTemplateRef<InstanceType<typeof SurveyDesigner>>("surveyDesigner");
 
 const initialState: SurveyDefinition = {

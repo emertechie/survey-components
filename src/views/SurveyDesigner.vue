@@ -1,13 +1,8 @@
 <template>
-  <div class="pb-6">
-    <div class="sticky top-0 z-10 border-b border-gray-200 bg-gray-100 p-3">
-      <h1 class="text-lg font-semibold">Edit Survey</h1>
-    </div>
+  <div class="p-3 pb-6">
+    <h1 class="mb-4 text-lg font-semibold">Edit Survey</h1>
 
-    <PagesContainer
-      class="p-3"
-      ref="pagesContainer"
-    />
+    <PagesContainer ref="pagesContainer" />
   </div>
 </template>
 
