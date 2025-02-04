@@ -28,7 +28,6 @@
             <!-- Undo button -->
             <button
               class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-300 text-white shadow-md transition-colors hover:bg-gray-400"
-              @click="addQuestionPage"
             >
               <Undo class="h-6 w-6" />
             </button>
