@@ -6,17 +6,19 @@
       default-value="design"
       class="w-full"
     >
-      <TabsList class="w-full">
+      <TabsList class="sticky top-0 z-10 w-full">
         <TabsTrigger value="design"> Design </TabsTrigger>
         <TabsTrigger value="settings"> Settings </TabsTrigger>
       </TabsList>
       <TabsContent value="design">
         <PagesContainer
-          class="mt-4"
+          class="mt-5"
           ref="pagesContainer"
         />
       </TabsContent>
-      <TabsContent value="settings"> TODO! </TabsContent>
+      <TabsContent value="settings">
+        <span class="text-muted-foreground">Todo</span>
+      </TabsContent>
     </Tabs>
   </div>
 </template>
