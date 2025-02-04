@@ -16,32 +16,18 @@
           class="sticky top-0 flex h-[calc(100vh-4rem)] flex-1 flex-col overflow-hidden bg-gray-100 sm:w-80 sm:flex-none md:w-96"
         >
           <!-- Scrollable Sidebar Content -->
-          <div class="flex-1 overflow-y-auto">
+          <div class="flex-1 overflow-y-auto pb-12">
             <SurveyDesigner
               ref="surveyDesigner"
               class="p-3 pb-6"
             />
           </div>
 
-          <!-- Fixed Bottom Toolbar -->
+          <!-- Save / Cancel Toolbar -->
           <div
-            class="flex h-14 items-center justify-center border-t border-gray-300 bg-gray-200 px-2"
+            class="absolute bottom-0 left-0 right-0 flex h-14 items-center justify-center border-t border-gray-300 bg-gray-200 px-2 transition"
+            :class="{ 'opacity-0': !hasChanges, 'opacity-100': hasChanges }"
           >
-            <!-- <Button
-              variant="ghost"
-              size="icon"
-              disabled="!canUndo"
-            >
-              <Undo />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              disabled="!canUndo"
-            >
-              <Redo />
-            </Button> -->
-
             <div class="flex gap-2">
               <Button
                 :disabled="!hasChanges"
@@ -58,15 +44,15 @@
                 Cancel
               </Button>
             </div>
-
-            <!-- Plus button -->
-            <button
-              class="absolute right-2 flex h-11 w-11 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
-              @click="addQuestionPage"
-            >
-              <Plus class="h-6 w-6" />
-            </button>
           </div>
+
+          <!-- Plus button -->
+          <button
+            class="absolute bottom-[0.36rem] right-2 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
+            @click="addQuestionPage"
+          >
+            <Plus class="h-6 w-6" />
+          </button>
         </aside>
 
         <!-- Main Content Area -->
@@ -91,7 +77,7 @@ import type { SurveyDefinition } from "@/data/definitions/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
 import SurveyDesigner from "./SurveyDesigner.vue";
 import SurveyPreview from "./SurveyPreview.vue";
-import { Plus, Undo, Redo } from "lucide-vue-next";
+import { Plus } from "lucide-vue-next";
 import { nextTick, useTemplateRef, watch } from "vue";
 import { useFocusManager } from "@/composables/useFocusManager";
 import { useScrollIntoView } from "@/composables/useScrollIntoView";
