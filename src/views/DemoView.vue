@@ -1,8 +1,8 @@
 <template>
   <div class="flex min-h-screen flex-col">
     <!-- Top Navigation Bar -->
-    <nav class="flex h-16 items-center bg-blue-600 px-6 text-white">
-      <h1 class="text-xl font-bold">App Navigation</h1>
+    <nav class="flex h-16 items-center px-3">
+      <h1 class="text-xl font-bold">Swift Survey</h1>
     </nav>
 
     <!-- Main Container -->
@@ -17,10 +17,7 @@
         >
           <!-- Scrollable Sidebar Content -->
           <div class="flex-1 overflow-y-auto pb-12">
-            <SurveyDesigner
-              ref="surveyDesigner"
-              class="p-3 pb-6"
-            />
+            <SurveyDesigner ref="surveyDesigner" />
           </div>
 
           <!-- Save / Cancel Toolbar -->
@@ -57,9 +54,6 @@
 
         <!-- Main Content Area -->
         <main class="hidden flex-1 sm:block">
-          <!-- <h2 class="mb-4 text-2xl font-bold">Main Content Area</h2>
-        <div class="rounded bg-gray-50 p-4">Content goes here...</div> -->
-
           <SurveyPreview
             :survey
             class="preview h-full p-3 pl-5"

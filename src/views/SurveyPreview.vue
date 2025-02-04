@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <h1 class="mb-4 text-xl font-bold">Preview</h1>
+    <h1 class="mb-4 text-lg font-semibold">Preview</h1>
 
     <div
       class="absolute bottom-5 left-5 w-72 rounded-lg border border-gray-200 bg-white shadow-xl sm:w-80 lg:w-96"
