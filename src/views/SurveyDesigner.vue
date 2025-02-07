@@ -1,19 +1,17 @@
 <template>
   <div class="pb-6">
-    <h1 class="p-3 pb-0 text-lg font-semibold">Edit Survey</h1>
-
     <Tabs
-      default-value="design"
+      default-value="pages"
       class="w-full"
     >
       <div class="sticky top-0 z-10 w-full bg-white px-3 py-4">
         <TabsList class="w-full">
-          <TabsTrigger value="design"> Design </TabsTrigger>
+          <TabsTrigger value="pages"> Pages </TabsTrigger>
           <TabsTrigger value="settings"> Settings </TabsTrigger>
         </TabsList>
       </div>
 
-      <TabsContent value="design">
+      <TabsContent value="pages">
         <PagesContainer
           class="p-3 pt-0"
           ref="pagesContainer"

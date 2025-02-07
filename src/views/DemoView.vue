@@ -11,7 +11,7 @@
       >
         <!-- Sidebar -->
         <aside
-          class="sticky top-0 flex h-[calc(100vh-4rem)] flex-1 flex-col overflow-hidden sm:w-80 sm:flex-none md:w-96"
+          class="sticky top-0 flex h-[calc(100vh-4rem)] flex-1 flex-col overflow-hidden border-r border-gray-200 sm:w-80 sm:flex-none md:w-96"
         >
           <!-- Scrollable Sidebar Content -->
           <div class="flex-1 overflow-y-auto pb-12">
@@ -51,11 +51,57 @@
         </aside>
 
         <!-- Main Content Area -->
-        <main class="hidden flex-1 sm:block">
-          <SurveyPreview
-            :survey
-            class="preview h-full p-3 pl-5"
-          />
+        <main class="hidden flex-1 flex-col sm:block">
+          <!-- Device Selector Toolbar -->
+          <div class="flex items-center justify-center gap-4 border-b border-gray-200 bg-white p-2">
+            <button
+              class="rounded-lg p-2 transition-colors hover:bg-gray-100"
+              :class="{ 'bg-gray-100': selectedDevice === 'desktop' }"
+              @click="selectedDevice = 'desktop'"
+            >
+              <Monitor class="h-5 w-5" />
+            </button>
+            <button
+              class="rounded-lg p-2 transition-colors hover:bg-gray-100"
+              :class="{ 'bg-gray-100': selectedDevice === 'tablet' }"
+              @click="selectedDevice = 'tablet'"
+            >
+              <Tablet class="h-5 w-5" />
+            </button>
+            <button
+              class="rounded-lg p-2 transition-colors hover:bg-gray-100"
+              :class="{ 'bg-gray-100': selectedDevice === 'mobile' }"
+              @click="selectedDevice = 'mobile'"
+            >
+              <Smartphone class="h-5 w-5" />
+            </button>
+          </div>
+
+          <!-- Device Mockup Container -->
+          <div class="flex flex-1 items-center justify-center p-8">
+            <div
+              class="relative transition-all duration-300"
+              :class="{
+                'w-full max-w-5xl': selectedDevice === 'desktop',
+                'w-full max-w-[768px]': selectedDevice === 'tablet',
+                'w-full max-w-[375px]': selectedDevice === 'mobile',
+              }"
+            >
+              <!-- Device Frame -->
+              <div
+                class="overflow-hidden rounded-lg border-[4px] border-gray-700 bg-indigo-50 shadow-lg"
+                :class="{
+                  'border-gray-300': selectedDevice === 'desktop',
+                  'border-gray-400': selectedDevice !== 'desktop',
+                }"
+              >
+                <SurveyPreview
+                  :survey
+                  class="h-[600px] overflow-y-auto"
+                />
+              </div>
+            </div>
+          </div>
         </main>
       </SurveyContextProvider>
     </div>
@@ -69,8 +115,8 @@ import type { SurveyDefinition } from "@/data/definitions/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
 import SurveyDesigner from "./SurveyDesigner.vue";
 import SurveyPreview from "./SurveyPreview.vue";
-import { Plus } from "lucide-vue-next";
-import { nextTick, useTemplateRef, watch } from "vue";
+import { Plus, Monitor, Smartphone, Tablet } from "lucide-vue-next";
+import { nextTick, ref, useTemplateRef, watch } from "vue";
 import { useFocusManager } from "@/composables/useFocusManager";
 import { useScrollIntoView } from "@/composables/useScrollIntoView";
 import { useSurveyStore } from "@/stores/useSurveyStore";
@@ -115,6 +161,8 @@ const focusManager = useFocusManager();
 const surveyStore = useSurveyStore(initialState);
 const { survey, createNewPage, addPage, hasChanges, cancelChanges } = surveyStore;
 
+const selectedDevice = ref<"desktop" | "tablet" | "mobile">("desktop");
+
 function addQuestionPage() {
   const newPage = createNewPage("question");
   addPage(newPage);
@@ -148,10 +196,8 @@ async function handleSave() {
 </script>
 
 <style scoped>
-.preview {
-  background-color: #e5e5f7;
-  opacity: 0.8;
-  background-image: radial-gradient(#757ca0 0.5px, #e5e5f7 0.5px);
-  background-size: 10px 10px;
+main {
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23d1d5dc' fill-opacity='0.4'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 </style>
