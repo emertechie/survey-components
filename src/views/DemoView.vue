@@ -52,32 +52,9 @@
 
         <!-- Main Content Area -->
         <main class="hidden flex-1 flex-col sm:block">
-          <!-- Device Selector Toolbar -->
           <div class="flex items-center justify-center gap-4 border-b border-gray-200 bg-white p-2">
-            <button
-              class="rounded-lg p-2 transition-colors hover:bg-gray-100"
-              :class="{ 'bg-gray-100': selectedDevice === 'desktop' }"
-              @click="selectedDevice = 'desktop'"
-            >
-              <Monitor class="h-5 w-5" />
-            </button>
-            <button
-              class="rounded-lg p-2 transition-colors hover:bg-gray-100"
-              :class="{ 'bg-gray-100': selectedDevice === 'tablet' }"
-              @click="selectedDevice = 'tablet'"
-            >
-              <Tablet class="h-5 w-5" />
-            </button>
-            <button
-              class="rounded-lg p-2 transition-colors hover:bg-gray-100"
-              :class="{ 'bg-gray-100': selectedDevice === 'mobile' }"
-              @click="selectedDevice = 'mobile'"
-            >
-              <Smartphone class="h-5 w-5" />
-            </button>
+            <DeviceSelectorButtons v-model="selectedDevice" />
           </div>
-
-          <!-- Device Mockup Container -->
           <DeviceMockup :selected-device="selectedDevice">
             <SurveyPreview
               :survey
@@ -97,7 +74,7 @@ import type { SurveyDefinition } from "@/data/definitions/survey";
 import { createCheckboxDefinition, createTextDefinition } from "@/data/definitions/answerTypes";
 import SurveyDesigner from "./SurveyDesigner.vue";
 import SurveyPreview from "./SurveyPreview.vue";
-import { Plus, Monitor, Smartphone, Tablet } from "lucide-vue-next";
+import { Plus } from "lucide-vue-next";
 import { nextTick, ref, useTemplateRef, watch } from "vue";
 import { useFocusManager } from "@/composables/useFocusManager";
 import { useScrollIntoView } from "@/composables/useScrollIntoView";
@@ -105,6 +82,7 @@ import { useSurveyStore } from "@/stores/useSurveyStore";
 import SurveyContextProvider from "@/components/survey/design/SurveyContextProvider.vue";
 import TopNav from "@/components/nav/TopNav.vue";
 import DeviceMockup from "@/components/preview/DeviceMockup.vue";
+import DeviceSelectorButtons from "@/components/preview/DeviceSelectorButtons.vue";
 const surveyDesigner = useTemplateRef<InstanceType<typeof SurveyDesigner>>("surveyDesigner");
 
 const initialState: SurveyDefinition = {

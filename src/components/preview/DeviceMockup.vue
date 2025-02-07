@@ -23,7 +23,9 @@
 </template>
 
 <script setup lang="ts">
+type Device = "desktop" | "tablet" | "mobile";
+
 defineProps<{
-  selectedDevice: "desktop" | "tablet" | "mobile";
+  selectedDevice: Device;
 }>();
 </script>
