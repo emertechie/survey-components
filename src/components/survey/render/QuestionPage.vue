@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-4">
-    <h3 class="text-lg font-medium">{{ pageDefinition.question }}</h3>
+    <h3 class="font-medium">{{ pageDefinition.question }}</h3>
     <form
       class="mb-2 space-y-4"
       @submit="onSubmit"

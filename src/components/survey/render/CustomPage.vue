@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-2">
-    <h3 class="text-lg font-medium">{{ pageDefinition.header }}</h3>
+    <h3 class="font-medium">{{ pageDefinition.header }}</h3>
     <div>{{ pageDefinition.content }}</div>
   </div>
 </template>
