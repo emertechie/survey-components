@@ -11,7 +11,7 @@
       >
         <!-- Sidebar -->
         <aside
-          class="sticky top-0 flex h-[calc(100vh-4rem)] flex-1 flex-col overflow-hidden border-r border-gray-200 sm:w-80 sm:flex-none md:w-96"
+          class="sticky top-0 flex h-[calc(100vh-4rem)] flex-1 flex-col overflow-hidden border-r border-gray-200 bg-slate-50 sm:w-80 sm:flex-none md:w-96"
         >
           <!-- Scrollable Sidebar Content -->
           <div class="flex-1 overflow-y-auto pb-12">
@@ -52,7 +52,9 @@
 
         <!-- Main Content Area -->
         <main class="hidden flex-1 flex-col sm:block">
-          <div class="flex items-center justify-center gap-4 border-b border-gray-200 bg-white p-2">
+          <div
+            class="flex h-[65px] items-center justify-center gap-4 border-b border-gray-200 bg-white p-2"
+          >
             <DeviceSelectorButtons v-model="selectedDevice" />
           </div>
           <DeviceMockup :selected-device="selectedDevice">

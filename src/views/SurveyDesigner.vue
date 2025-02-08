@@ -4,7 +4,7 @@
       default-value="pages"
       class="w-full"
     >
-      <div class="sticky top-0 z-10 w-full bg-white px-3 py-4">
+      <div class="sticky top-0 z-10 w-full border-b border-gray-200 bg-white px-3 py-3">
         <TabsList class="w-full">
           <TabsTrigger value="pages"> Pages </TabsTrigger>
           <TabsTrigger value="settings"> Settings </TabsTrigger>
@@ -13,7 +13,7 @@
 
       <TabsContent value="pages">
         <PagesContainer
-          class="p-3 pt-0"
+          class="p-3"
           ref="pagesContainer"
         />
       </TabsContent>
