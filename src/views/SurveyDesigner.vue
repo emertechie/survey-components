@@ -29,6 +29,7 @@
           >
             <Textarea
               v-model="aiPrompt"
+              ref="aiPromptTextarea"
               placeholder="Ask AI to edit the survey..."
               class="min-h-[80px] resize-none"
             />
@@ -58,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useTemplateRef } from "vue";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Toggle } from "@/components/ui/toggle";
@@ -73,6 +74,18 @@ const { store } = useSurveyContext();
 const promptPanel = ref<HTMLElement | null>(null);
 const showAIPrompt = ref(false);
 const aiPrompt = ref("");
+const aiPromptTextarea = useTemplateRef<InstanceType<typeof Textarea>>("aiPromptTextarea");
+
+watch(showAIPrompt, (toggled) => {
+  if (toggled) {
+    // Avoid drawing attention to textarea moving into view during transition
+    setTimeout(() => {
+      aiPromptTextarea.value?.$el.focus();
+    }, 150);
+  } else {
+    aiPromptTextarea.value?.$el.blur();
+  }
+});
 
 defineExpose({
   save: async () => {
