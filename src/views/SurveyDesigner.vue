@@ -29,9 +29,16 @@
           >
             <Textarea
               v-model="aiPrompt"
-              placeholder="Enter your AI prompt here..."
-              class="min-h-[100px] resize-none"
+              placeholder="Ask AI to edit the survey..."
+              class="min-h-[80px] resize-none"
             />
+
+            <div
+              class="mt-2 flex items-center justify-center gap-1 text-center text-xs text-muted-foreground"
+            >
+              <Info class="h-3 w-3" />
+              Not implemented yet
+            </div>
           </div>
         </div>
 
@@ -58,7 +65,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { Textarea } from "@/components/ui/textarea";
 import PagesContainer from "@/components/survey/design/PagesContainer.vue";
 import { useSurveyContext } from "@/components/survey/design/SurveyContextProvider.vue";
-import { WandSparkles } from "lucide-vue-next";
+import { WandSparkles, Info } from "lucide-vue-next";
 
 const pagesContainer = useTemplateRef<InstanceType<typeof PagesContainer>>("pagesContainer");
 const { store } = useSurveyContext();
