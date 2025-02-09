@@ -21,7 +21,7 @@
         <!-- AI Prompt Panel with height transition -->
         <div
           class="sticky top-[65px] z-10 overflow-hidden transition-[height] duration-300 ease-out"
-          :style="{ height: panelHeight }"
+          :style="{ height: showAIPrompt ? promptPanel?.offsetHeight + 'px' : '0px' }"
         >
           <div
             class="border-b border-gray-200 bg-white px-3 py-3"
@@ -36,27 +36,22 @@
         </div>
 
         <!-- Tab Content -->
-        <div
-          class="transition-transform duration-300 ease-out"
-          :style="contentStyle"
-        >
-          <TabsContent value="pages">
-            <PagesContainer
-              class="p-3"
-              ref="pagesContainer"
-            />
-          </TabsContent>
-          <TabsContent value="settings">
-            <span class="p-3 text-muted-foreground">Todo</span>
-          </TabsContent>
-        </div>
+        <TabsContent value="pages">
+          <PagesContainer
+            class="p-3"
+            ref="pagesContainer"
+          />
+        </TabsContent>
+        <TabsContent value="settings">
+          <span class="p-3 text-muted-foreground">Todo</span>
+        </TabsContent>
       </div>
     </Tabs>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from "vue";
+import { ref } from "vue";
 import { useTemplateRef } from "vue";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Toggle } from "@/components/ui/toggle";
@@ -68,28 +63,9 @@ import { WandSparkles } from "lucide-vue-next";
 const pagesContainer = useTemplateRef<InstanceType<typeof PagesContainer>>("pagesContainer");
 const { store } = useSurveyContext();
 
+const promptPanel = ref<HTMLElement | null>(null);
 const showAIPrompt = ref(false);
 const aiPrompt = ref("");
-
-const promptPanel = ref<HTMLElement | null>(null);
-const promptHeight = ref(0);
-
-// Update prompt height when panel becomes visible
-watch(showAIPrompt, async (visible) => {
-  if (visible && promptPanel.value) {
-    promptHeight.value = promptPanel.value.offsetHeight;
-  } else {
-    promptHeight.value = 0;
-  }
-});
-
-// Compute panel height for animation
-const panelHeight = computed(() => (showAIPrompt.value ? `${promptHeight.value}px` : "0px"));
-
-// Compute transform for content to slide down
-const contentStyle = computed(() => ({
-  transform: showAIPrompt.value ? `translateY(0px)` : `translateY(-${promptHeight.value}px)`,
-}));
 
 defineExpose({
   save: async () => {
