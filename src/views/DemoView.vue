@@ -20,8 +20,8 @@
 
           <!-- Save / Cancel Toolbar -->
           <div
-            class="absolute bottom-0 left-0 right-0 flex h-14 items-center justify-center border-t border-gray-300 bg-gray-200 px-2 transition"
-            :class="{ 'opacity-0': !hasChanges, 'opacity-100': hasChanges }"
+            class="absolute bottom-0 left-0 right-0 flex h-14 transform items-center justify-center border-t border-gray-300 bg-gray-200 px-2 transition-all duration-200"
+            :class="{ 'translate-y-full': !hasChanges, 'translate-y-0': hasChanges }"
           >
             <div class="flex gap-2">
               <Button
@@ -43,7 +43,8 @@
 
           <!-- Plus button -->
           <button
-            class="absolute bottom-[0.36rem] right-3 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-colors hover:bg-blue-600"
+            class="absolute right-3 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-blue-500 text-white shadow-md transition-all duration-200 hover:bg-blue-600"
+            :class="{ 'bottom-[0.36rem]': !hasChanges, 'bottom-16': hasChanges }"
             @click="addQuestionPage"
           >
             <Plus class="h-6 w-6" />
