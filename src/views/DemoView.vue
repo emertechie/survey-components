@@ -24,12 +24,19 @@
             :class="{ 'translate-y-full': !hasChanges, 'translate-y-0': hasChanges }"
           >
             <div class="flex gap-2">
-              <Button
-                :disabled="!hasChanges"
-                @click="handleSave"
-              >
-                Save
-              </Button>
+              <TooltipProvider>
+                <Tooltip :delay-duration="0">
+                  <TooltipTrigger as-child>
+                    <Button
+                      :disabled="!hasChanges"
+                      @click="handleSave"
+                    >
+                      Save
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent> Not Implemented </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
 
               <Button
                 variant="secondary"
@@ -71,6 +78,7 @@
 </template>
 
 <script setup lang="ts">
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { v4 as uuidv4 } from "uuid";
 import type { SurveyDefinition } from "@/data/definitions/survey";
