@@ -1,13 +1,13 @@
 # Overview
 
-WIP on a survey form builder. Uses Vue 3 Composition API.
+Early WIP on a survey form builder. Uses Vue 3 Composition API.
 
-Features:
+Features (planned or in development):
 
-- Survey page designer (WIP)
-- Preview of the rendered survey (TODO)
+- Survey page designer
+- Preview of the rendered survey
 - Uses Immer for immutable data structure and change tracking
-- Full undo / redo ability (Planned)
+- Full undo / redo ability
 
 [Demo](https://survey-components.pages.dev/demo)
 
