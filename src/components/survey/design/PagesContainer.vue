@@ -1,10 +1,11 @@
 <template>
-  <div class="space-y-6">
+  <div class="p-3">
     <TransitionGroup name="fade">
       <!-- NOTE: dynamic <component> needs static parent div for animations to work -->
       <div
         v-for="(page, index) of store.survey.value.pages"
         :key="page.id"
+        class="mb-6"
       >
         <component
           :is="pageComponentsByType[page.type]"
@@ -100,6 +101,7 @@ async function validateAllPages(): Promise<ValidationResult<PageDefinition>[]> {
       animations can be calculated correctly. */
 .fade-leave-active {
   position: absolute;
-  width: 100%;
+  /* Account for the p-3 padding on left & right of container */
+  width: calc(100% - theme("spacing.6"));
 }
 </style>

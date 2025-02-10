@@ -45,10 +45,7 @@
 
         <!-- Tab Content -->
         <TabsContent value="pages">
-          <PagesContainer
-            class="p-3"
-            ref="pagesContainer"
-          />
+          <PagesContainer ref="pagesContainer" />
         </TabsContent>
         <TabsContent value="settings">
           <span class="p-3 text-muted-foreground">Todo</span>
