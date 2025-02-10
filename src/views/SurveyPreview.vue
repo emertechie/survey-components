@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <div
-      class="absolute bottom-5 left-5 w-72 rounded-lg border border-gray-200 bg-white shadow-xl sm:w-80 lg:w-96"
+      class="preview-panel absolute bottom-5 left-5 w-72 rounded-lg border border-gray-200 bg-white shadow-xl sm:w-80 lg:w-96"
     >
       <div class="p-4">
         <div class="mb-4 flex items-center justify-between">
@@ -47,3 +47,10 @@ import PagesContainer from "@/components/survey/render/PagesContainer.vue";
 const { store } = useSurveyContext();
 const survey = store.survey;
 </script>
+
+<style scoped>
+.preview-panel {
+  transform: scale(0.8);
+  transform-origin: 0 100%;
+}
+</style>
