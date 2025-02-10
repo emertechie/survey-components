@@ -78,7 +78,7 @@ const aiPromptTextarea = useTemplateRef<InstanceType<typeof Textarea>>("aiPrompt
 
 watch(showAIPrompt, (toggled) => {
   if (toggled) {
-    // Avoid drawing attention to textarea moving into view during transition
+    // Avoid drawing attention to focused textarea moving into view during transition
     setTimeout(() => {
       aiPromptTextarea.value?.$el.focus();
     }, 150);
